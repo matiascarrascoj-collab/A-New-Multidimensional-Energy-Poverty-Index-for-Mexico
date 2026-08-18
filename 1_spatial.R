@@ -1,5 +1,4 @@
 #*** Spatial approach **
-#*** Matías Carrasco Jiménez **
 
 # Preamble --------------------------------------------------------------------
 

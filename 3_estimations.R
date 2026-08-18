@@ -1,5 +1,4 @@
 #*** Energy Poverty (estimations) **
-#*** Matías Carrasco-Jiménez **
 
 # Preamble --------------------------------------------------------------------
 

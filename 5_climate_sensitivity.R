@@ -1,5 +1,4 @@
-#*** Climate-zone sensitivity (Section 4 / appendix) ***
-#*** Matías Carrasco-Jiménez **
+#*** Climate-zone sensitivity (Section 4 / appendix) **
 #
 # Recomputes H, M0, A under four alternative climate-zone classifications.
 # Does NOT re-run 2_data.R/3_estimations.R — operates directly on dt.RData.

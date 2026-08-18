@@ -1,5 +1,4 @@
-#*** Cooking / water-heating merge sensitivity (Section 3.1 / appendix) ***
-#*** Matías Carrasco-Jiménez **
+#*** Cooking / water-heating merge sensitivity (Section 3.1 / appendix) **
 #
 # Referee concern (August 2026 review notes, item B.2). Ck and Wt have a
 # tetrachoric correlation of 0.83-0.86 and jointly carry two Tier-1 weights and

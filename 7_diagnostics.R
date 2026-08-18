@@ -1,5 +1,4 @@
-#*** Indicator diagnostics, counterfactuals and descriptive statistics ***
-#*** Matías Carrasco-Jiménez **
+#*** Indicator diagnostics, counterfactuals and descriptive statistics **
 #
 # Every number that appears in essay_I.tex but is not produced by scripts 1-6.
 # Written in August 2026 in response to the referee correction list; before this

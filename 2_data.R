@@ -1,6 +1,4 @@
 #*** Energy Poverty (dataset construction) **
-#*** Matías Carrasco-Jiménez **
-
 # Preamble --------------------------------------------------------------------
 
 rm(list = ls())

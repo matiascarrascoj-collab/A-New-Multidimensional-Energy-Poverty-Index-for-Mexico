@@ -1,5 +1,4 @@
-#*** Entertainment-drop sensitivity (Section 4 / appendix) ***
-#*** Matías Carrasco-Jiménez **
+#*** Entertainment-drop sensitivity (Section 4 / appendix) **
 #
 # Reviewer concern: the entertainment indicator (Et) is the only deprivation
 # rate that rises across 2016–2024 (3.92% → 5.59%), with its share of M0 nearly

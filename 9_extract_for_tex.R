@@ -1,5 +1,4 @@
-#*** Code-to-text bridge: every numeric value that appears in essay_I.tex ***
-#*** Matías Carrasco-Jiménez **
+#*** Code-to-text bridge: every numeric value that appears in essay_I.tex **
 #
 # Reads the final RData objects produced by scripts 1-7 and prints a structured
 # dump, grouped by the LaTeX label of the table or figure that consumes each
