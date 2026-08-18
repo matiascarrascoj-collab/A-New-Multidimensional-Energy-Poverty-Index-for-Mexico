@@ -1,0 +1,1085 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[inner=2.54cm,outer=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{placeins} 
+\usepackage{tabularray}
+\usepackage{caption}
+\usepackage{appendix}
+\usepackage{threeparttable} 
+\linespread{1.5}
+\usepackage{subfigure}
+\usepackage{tabularx}
+\usepackage{graphicx} 
+\usepackage{float}
+\usepackage{authblk}
+\usepackage{booktabs} 
+\usepackage{siunitx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage[autostyle=false, style=english]{csquotes}
+\usepackage[style=apa, hyperref=true]{biblatex}
+\addbibresource{references.bib}
+\newcommand{\citealp}[1]{\citeauthor{#1}~\citeyear{#1}}
+\usepackage[toctitles]{titlesec}
+\usepackage[bottom]{footmisc}
+\usepackage{ragged2e}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,  
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={A New Multidimensional Energy Poverty Index for Mexico},
+    pdfpagemode=FullScreen,
+}
+
+
+\title{A New Multidimensional Energy Poverty Index for Mexico}
+\author[1, 2, 3]{\href{mailto:matiascarrascoj@gmail.com}{Matías Carrasco-Jiménez}} 
+\affil[1]{\textit{Università degli Studi Roma Tre}}
+\affil[2]{\textit{Sorbonne Université}}
+\affil[3]{\textit{Université de Technologie de Compiègne}}
+
+
+\date{\today}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    \noindent Utilizing the Alkire-Foster (AF) methodology and data from the National Household Income and Expenditure Survey (ENIGH), this paper proposes a novel and time-comparable Multidimensional Energy Poverty Index (MEPI) for Mexico, spanning the period from 2016 to 2024. The study develops a dimensionally-flexible framework that incorporates eight empirical dimensions: electricity access, cooking, water heating, thermal comfort, refrigeration, entertainment, communication, and energy affordability. A key contribution is the integration of an affordability dimension and a climate-sensitive thermal comfort metric that accounts for heterogeneous needs across warm, cold, and temperate municipalities. Weights are assigned following an exogenous, expert-judgment three-tier scheme inspired by \textcite{nussbaumer2012}, which we then contrast with three alternative schemes (Multiple Correspondence Analysis, equal, and frequency-based) for robustness. The results reveal a substantial near-monotonic reduction in energy poverty---with a small, statistically insignificant uptick between 2016 and 2018, followed by a continuous decline through 2024---and the adjusted headcount ratio ($M_0$) falls from 9.7\% in 2016 to 6.9\% in 2024: a 29.1\% relative decrease (28.2--31.4\% across the four weighting schemes). Over the same period the energy-poor headcount ($H$) declines by 7.0 million people. The largest improvement in percentage points was recorded in the affordability dimension, consistent with recent real-wage increases in Mexico, while in relative terms the steepest decline was in communication ($-$71.9\%). While overall incidence ($H$) and intensity ($A$) of poverty declined, the findings highlight persistent challenges: absolute gaps narrowed for most vulnerable groups, but the corresponding \emph{relative} disadvantages widened, and substantial asymmetries persist across sociodemographic groups, income levels and states.
+\end{abstract}
+
+\noindent\textbf{Keywords:} Multidimensional Energy Poverty, Alkire-Foster Method, Affordability, Thermal Comfort, Mexico.
+
+\vspace{0.5em}
+
+\noindent\textbf{Highlights}
+\begin{itemize}\setlength\itemsep{0pt}
+    \item A time-comparable multidimensional energy poverty index for Mexico, 2016--2024.
+    \item Adjusted headcount ratio falls 29.1\%; robust across weights and climate zones.
+    \item Affordability and climate-sensitive thermal comfort added to the MEPI core.
+    \item Absolute group gaps narrow while relative disadvantages widen everywhere.
+    \item Entertainment deprivation rises only because smartphones are not counted.
+\end{itemize}
+
+\thispagestyle{empty}
+
+\clearpage
+\newpage
+\setcounter{page}{1}
+
+\tableofcontents
+
+
+\section{Introduction and Literature Review}
+
+As of 2025, 730 million people live without access to electricity, and around 2 billion people rely on cooking methods that are detrimental to human health \parencite{zotero-item-1039}. These two populations overlap substantially and cannot simply be added; taken jointly, however, they place a large share of the world's population within the broad threshold of what could be considered \textit{energy poverty}. For \textcite[p. 44]{goldemberg2000}, energy poverty is defined as: ``the absence of sufficient choice in accessing adequate, affordable, reliable, high-quality, safe and environmentally benign energy services to support economic and human development''.\footnote{\textcite{bazilian2010}, \textcite{bouzarovski2015} and \textcite{day2016} present overviews of the various definitions and measures of energy poverty.} 
+
+Energy poverty has been shown to be a serious obstacle in the implementation of sustainable development and poverty reduction policies, particularly in the context of UN's millennium development goals (MDGs) \parencite{zotero-item-1064}  and sustainable development goals (SDGs) \parencite{zotero-item-1065} \parencite{groh2014, jannuzzi2012, pachauri2012, zotero-item-1063, mccollum2018, santika2019, liu2022}. Furthermore, it has been observed that energy poverty has negative impacts on health, education, social mobility and economic growth \parencite{gonzalez-eguino2015, nadimi2017, nadimi2018, AFD_2025}. Precise estimations of energy poverty are essential in the articulation of evidence-based public policy destined towards improving access to modern energy services, and hence, reducing energy poverty \parencite{pelz2018, nussbaumer2012}. 
+
+The characterization presented by \textcite{goldemberg2000} gravitates closely around Sen's \textit{capability approach} (see \citealp{sen2000a}; \citealp{sen2000}; and \citealp{sen2011}). From this perspective, development has to do with non-exclusion from accessing a set of options related to the realization of welfare \parencite{gonzalez-eguino2015}. Capabilities represent the ``various combinations of functionings... that the person can achieve'' \parencite[p. 40]{sen1995}. In this framework functionings are the \textit{beings} and \textit{doings} that people value, whether healthcare, education, nourishment, or community engagement \parencite{sen2011}.
+
+This approach has been fundamental in the ``reconsideration of the concepts of poverty'' \parencite[p. 9]{jenkins2007} that, within economics, moved the analysis of poverty away from the space of utility maximization \parencite[p. 5]{alkire2015}. Poverty in the space of capabilities is naturally multidimensional: ``it is concerned with a plurality of different features of our lives and concerns'' \parencite[p. 233]{sen2011}. It is in this context that poverty measurement efforts started to evolve towards a multidimensional approach, now commonly known as the Alkire-Foster (AF) method \parencite{alkire2011, alkire2010}. For our purposes, energy poverty can be understood as ``only one dimension of deprivation and insufficient well-being'' \parencite[p. 1]{pelz2018}, i.e., another dimension of poverty. 
+
+Was the recent fall in \textit{multidimensional poverty}\footnote{For \textcite{coneval2019}, an individual is considered to be multidimensionally poor if: (\textit{i}) their \textit{total current income per capita} (ICTPC, by its acronym in Spanish) falls below the \textit{income poverty line} (\textit{línea de pobreza por ingresos}, LPI, with a rural-urban distinction); and (\textit{ii}) they experience one or more \textit{social deprivations}: education, healthcare, social security, basic services, housing quality and food security.} in Mexico accompanied by a fall in energy poverty? Between 2018 and 2024 the share of the Mexican population in multidimensional poverty fell from 41.9\% to 29.6\%, which implies a net difference of 13.4 million people \parencite{zotero-item-1075}. We quote the 2018--2024 change because it is the comparison INEGI and CONEVAL publish; on our own recomputation from the same microdata over the window this paper analyses, the multidimensional poverty rate falls from 43.2\% in 2016 to 29.5\% in 2024 (Table~\ref{tab:af_circ}, memorandum), so the energy-poverty figures reported below are directly comparable with a 13.7pp fall in multidimensional poverty rather than the headline 12.3pp. Moreover, between 2018 and 2024 the federal minimum wage increased, in real terms, by 116.4\% (a factor of 2.16), accounting for 49.2\% of the total reduction in poverty \parencite[p. 7]{zotero-item-1074}.\footnote{This increase in the minimum wage is reported utilizing the weighted average methodology, in line with \textcite{conasami2023}.}
+
+These recent events compel us to identify and include an affordability dimension into previous multidimensional energy poverty (MEP) measures estimated for Mexico (e.g., \citealp{garciaochoa2016}; \citealp{garcia-ochoa2016}; \citealp{santillan2020}; \citealp{robles-bonilla2021}; \citealp{cedano2021}; \citealp{soriano-hernandez2022}; \citealp{jimeneztorres2026}; and \citealp{canto-franco2026}). Within a country, as average household income rises, according to the ``energy ladder'' theory \parencite{vanderkroon2013, waweru2022}, there is a substitution process between \textit{traditional} (biomass sources, primarily) non-monetary commercialized and \textit{modern} (oil, gas, electricity) monetary commercialized fuel sources. 
+
+We can see this trend in panels (a) and (b) of Figure \ref{fig:income_plots}. The former shows a nationwide rightward shift in the real ICTPC distribution---mean monthly ICTPC rises from MXN 6,272 to MXN 7,472 at August 2024 prices---accompanied by a mild compression in relative dispersion, with the standard deviation of log ICTPC falling from 0.836 to 0.765. The latter shows a multi-modal energy expenditure distribution within the bottom 20\% of the ICTPC distribution: the share of that group whose household energy expenditure exceeds the national average rose from 18.2\% in 2016 to 20.3\% in 2024. The increase is modest, but the level is the substantive point---roughly one in five individuals in the poorest quintile already spends more on energy than the average Mexican household---and it is a level that a purely access-based index cannot register. We argue that affordability is therefore essential for the analysis of energy poverty in the Mexican context.
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[]{\includegraphics[width=0.48\textwidth]{EECC/figures/income_density.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.48\textwidth]{EECC/figures/energy_density.jpeg}} \\
+    \subfigure[]{\includegraphics[width=0.48\textwidth]{EECC/figures/ictpc_cen.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.48\textwidth]{EECC/figures/energy_cen_1.jpeg}} 
+    \caption{
+    \scriptsize
+    Panels of shifts in the distribution of income and energy expenditures (2016--2024). All variables are deflated to August 2024. All means were computed using ENIGH's stratified clustered design, with primary sampling units, sample design stratum, and individual expansion factors. (a) ICTPC kernel distributions. (b) Energy expenditure kernel distributions, bottom 20\% of the ICTPC distribution. (c) Shifts in the distribution of income across ICTPC centiles; plotted values are centile means. (d) Shifts in the distribution of energy expenditures across ICTPC centiles; plotted values are centile means, lines smoothed using Locally Estimated Scatterplot Smoothing (LOESS). Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.}
+    \label{fig:income_plots}
+\end{figure}
+
+The first systematic measurements of energy poverty date back to the 1980s in western Europe (particularly in the United Kingdom). These works were distinctly concerned with the dimension of \textit{fuel poverty} (heating fuel) \parencite{li2014, sovacool2015, day2016, primc2021}. These early studies emphasized the affordability aspect of energy services (see \citealp{bradshaw1983}; \citealp{krugmann1983}; \citealp{leach1987}; \citealp{goldemberg1995}; and \citealp{boardman1991}).\footnote{As noted by \textcite{soriano-hernandez2022}, this methodology provides popular proxies for energy poverty in the Global North (see \citealp{balaskas2021}; \citealp{tundys2021}; and \citealp{das2022}).} In these approaches households are identified as poor if they spend more than a certain share of their income on fuel services or if that income falls below a specific consumption-based energy poverty line (see \citealp{thomson2017}; \citealp{thomson2017b}; \citealp{awaworyichurchill2020}; and \citealp{awaworyichurchill2020a}). 
+
+The limitations of this approach eventually fostered the development of the  ``low income high cost'' (LIHC) approach \parencite{hills2011, hills2012}, where a household is identified as poor if it (a) has required energy costs above the national median (the high-cost leg) and (b) has a residual income, after deducting modeled energy costs, below the poverty line (the low-income leg). The affordability indicator we adopt below (Table~\ref{tab1}, dimension Af) implements only the low-income leg of LIHC, conditional on observed---rather than modeled---energy expenditures. These unidimensional consumption-based measures are, nevertheless, not entirely appropriate and applicable to the realities of developing countries \parencite{sy2022a, li2014, rafi2021}: problems related to preferences, the availability and reliability of electricity, as well as the fact that vulnerabilities related to the inaccessibility of energy services might be spread across income groups serve as arguments (and limitations) against universal all-encompassing energy poverty measures \parencite{akpalu2011, barnes2011, barnes2010, hiemstra-vanderhorst2008, leach1992}. 
+
+A wide variety of empirical approaches have been put forward in order to monitor and assess energy poverty in developing countries. \textcite[p. 6]{sy2022a} outline three broad categories of indicators: (\textit{i}) unidimensional; (\textit{ii}) dashboard; and (\textit{iii}) composite/multidimensional. Unidimensional measures can be consumption-based, focusing on minimum energy requirements, efficiency, and similar quantities. This is the so-called \textit{engineering approach}.\footnote{Some examples of this approach are \textcite{goldemberg1990, johansson2000, krugmann1983, reddy1999, parikh1978, pachauri2004, swan2009, ye2021}.} Another set of unidimensional indicators---mentioned above---is income-based, and constitutes the \textit{economic approach}.\footnote{See \textcite{leach1987, barnes2010, barnes2011, phoumin2019, khundi-mkomba2021, hills2011, hills2012, boardman1991, bradshaw1983}.} Dashboard indicators are non-aggregated estimates at the national and/or global level; they are ``based on economic, environmental, social, technical and institutional sustainability'' \parencite[p. 8]{sy2022a} (see \citealp{manning2009}; and \citealp{vera2007}). These indicators aim to provide a broad picture of the energy system in place and its progress towards the MDGs and SDGs \parencite{zotero-item-1064, zotero-item-1065}.
+
+Finally, composite estimates can be \textit{multifaceted}, \textit{target-based}, or \textit{binary} \parencite{sy2022a}. Multifaceted outlooks on energy poverty are household-based measures characterized by employing a \textit{fuzzy set} procedure of identification (rather than a \textit{crisp set approach}, see \citealp{olsen2009}): the elements (households) of a set (the energy poor), rather than just belonging, or not, to it, have ``different degrees of membership'' \parencite[p. 102]{alkire2015}.\footnote{For examples, consult \textcite{nathan2020, olang2018, bhatia2015, gupta2020, seuret-jimenez2020}.} The target-based approach is ``designed to evaluate the progress towards achieving the sustainable
+development goals relating to the global energy sector'' \parencite[p. 11]{sy2022a}; hence, the backbone of these measures is the assessment, from a national perspective, of access to modern energy services, energy intensities, and the share of renewable sources in the energy mix, without necessarily focusing on the residential sector alone \parencite{primc2019}.\footnote{See \textcite{wang2017, banerjee2021, khanna2019, bonatz2019, che2021, li2021}.} 
+
+The multidimensional binary approach to energy poverty belongs to the family of MEPI estimates first developed by \textcite{nussbaumer2012} under the AF framework (see \citealp{alkire2010}; \citealp{alkire2011}; and \citealp{alkire2015}). These measures have substantially grown in popularity over the last 15 years, being applied in a multiplicity of socioeconomic environments across many different countries \parencite{pelz2018, sy2022a}.\footnote{The literature is extensive: \textcite{ogwumike2016, nussbaumer2013, bollino2017, okushima2017, sadath2017, bersisa2017, mendoza2019, crentsil2019, abbas2020, qurat-ul-ann2021, santillan2020, sokolowski2020, jayasinghe2021, ssennono2021, wang2022, kryk2023, rizal2024, tovarreanos2025a, canto-franco2026, jimeneztorres2026, cedano2021, robles-bonilla2021}.} In our view, this is because the family of MEPI indicators have certain attractive features for researchers: (\textit{i}) low data requirements (i.e., can be computed with a regular household income-expenditure survey); (\textit{ii}) high degree of normative customization-flexibility (in weighting and in deprivation and poverty cutoffs); and (\textit{iii}) in their standard form they satisfy the desirable properties familiar to AF indices (e.g., subgroup decomposability, dimensional breakdowns). Whether these properties survive the dimensionally-flexible extension proposed here is a separate question, taken up in Appendix~\ref{app:axioms}.
+
+The contribution to the literature of this paper is threefold. Firstly, it proposes an updated, novel, time-comparable national, subnational and decomposable (through dimensions, population subgroups and income brackets) MEPI measure, relevant for analyzing recent trends in multidimensional poverty, sustainable development and income distribution in Mexico. Secondly, it develops a formal presentation of a dimensionally-flexible MEPI indicator to address heterogeneous needs across subsets of the population, and establishes in Appendix~\ref{app:axioms} which of the standard AF properties the construction preserves and which require qualification. And, finally, it is---to the best of our knowledge---the first national MEPI for Mexico to combine, in a single time-comparable index, all four of the following: (\textit{i}) the traditional MEPI dimensions (cooking, electricity access, refrigeration, entertainment, communication) \parencite{nussbaumer2012};\footnote{\textcite{nussbaumer2012} label this dimension \textit{lighting}; because our achievement variable is the household electricity connection rather than a lighting-specific indicator, we refer to it throughout as \textit{electricity access} (Ea, Table~\ref{tab1}).} (\textit{ii}) the nationally relevant dimension of thermal comfort (see \citealp{canto-franco2026}; \citealp{cedano2021}; \citealp{jimeneztorres2026}; \citealp{robles-bonilla2021}); (\textit{iii}) the water heating dimension of the Meeting of Absolute Energy Needs method (MAEN, \textit{Satisfacción de Necesidades Absolutas de Energía}) (see \citealp{zotero-item-1006}; \citealp{garciaochoa2016}; and \citealp{garcia-ochoa2016}); and (\textit{iv}) the affordability dimension \textit{à la} \textcite{hills2011, hills2012}. Each individual dimension has precedents in earlier Mexican MEPI work cited above; the contribution lies in their joint inclusion within a single dimensionally-flexible AF measure. The structure of the paper is the following: Section \ref{data} introduces the dataset we used and the axiomatic approach\textit{ à la} \textcite{alkire2015} for our proposed MEPI; Section \ref{results} presents our national, subnational and subgroup estimates for the incidence ($H$), the intensity ($A$) and the adjusted headcount ratio ($M_0$) of energy poverty; and, finally, Section \ref{conclu} concludes and discusses the potential limitations of the proposed MEPI.
+
+\section{Data and Methodology}\label{data}
+
+\subsection{Data}
+
+We use the \textit{new series} (2016--2024, biennially) National Household Income and Expenditure Survey (ENIGH, by its acronym in Spanish), made available by \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}, that is, the Mexican National Institute of Statistics and Geography (INEGI being its acronym in Spanish): this is a repeated cross-section. As stated by \textcite{coneval2019}, the ENIGH dataset is the sole legally mandated input for the calculation of the official multidimensional poverty measure produced by the Mexican government. We complement the information provided by the ENIGH new series (see \citealp{inegi2023}) with the multidimensional poverty datasets (2016--2022) elaborated by the National Council for the Evaluation of Social Development Policy (CONEVAL, by its acronym in Spanish) \parencite{coneval_data} and by the 2024 dataset now calculated by \textcite{pm_inegi_2025}. The change of producer between 2022 and 2024 reflects an institutional transfer rather than a methodological break: CONEVAL was wound down in 2025 and the mandate to measure multidimensional poverty passed to INEGI, which retained CONEVAL's methodology for the 2024 estimation.
+
+Table~\ref{tab:samples} reports the realized sample of each wave. Three features of the series deserve comment. First, the \textit{nueva serie} designation \parencite{inegi2023} marks the point from which INEGI considers the income and expenditure aggregates comparable; we therefore begin in 2016 and make no comparisons with earlier ENIGH rounds. Second, the 2020 wave was fielded between August and November 2020 under COVID-19 conditions, with documented adjustments to field procedures. We flag this explicitly because the headline series declines through 2020, and part of that movement could in principle reflect changes in sample composition or differential non-response rather than an improvement in energy conditions. We do not attempt to correct for this; we treat the 2020 point as the least reliable of the five and note that the 2016--2024 endpoints, on which all $\Delta$ tests are based, are unaffected by it. Third, the only exclusion we impose on the merged file is that total current income per equivalent adult be strictly positive, which the affordability indicator requires; this removes between 0.04\% and 0.09\% of individuals per wave (Table~\ref{tab:samples}). The excluded group is not random---an individual reporting zero household income is necessarily below the income poverty line, and hence deprived in affordability---so the restriction trims the extreme lower tail of the affordability distribution. Given its size the effect on any estimate reported below is negligible, but we state it rather than leave it implicit.
+
+\begin{table}[htb]
+\centering
+\caption{ENIGH Realized Sample and Expanded Population by Wave}
+\small
+\begin{tabularx}{\textwidth}{l X rrrrr}
+\toprule
+\toprule
+Wave & & Dwellings & Households & Individuals & Excluded$^a$ & Expanded population (millions) \\ \midrule
+2016 & & 69{,}117 & 70{,}258 & 257{,}543 & 115 & 120.74 \\
+2018 & & 73{,}343 & 74{,}583 & 268{,}908 & 157 & 123.78 \\
+2020 & & 87{,}637 & 88{,}886 & 315{,}329 & 290 & 126.64 \\
+2022 & & 88{,}751 & 90{,}029 & 309{,}378 & 156 & 128.83 \\
+2024 & & 90{,}252 & 91{,}342 & 308{,}311 & 160 & 130.16 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{\textbf{Note:}} Realized sample after merging the \textit{viviendas}, \textit{hogares}, \textit{población}, \textit{gastos}, \textit{concentrado} and CONEVAL \textit{pobreza} modules. Expanded population uses individual expansion factors. $^a$~Individuals dropped from the merged file, all of them for the single reason that total current income per equivalent adult is zero, which the affordability indicator cannot evaluate; this is 0.045\% (2016), 0.058\% (2018), 0.092\% (2020), 0.050\% (2022) and 0.052\% (2024) of the corresponding module. No observation is dropped for missing achievement values: individuals with a missing indicator are retained in the file and excluded pairwise from the survey estimates in which that indicator enters. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:samples}
+\end{table}
+
+For the identification of households living in warm, cold or temperate municipalities we spatially joined isoline maps and weather station information (1,494 stations covering 1902--2012) of average, maximum and minimum yearly temperatures \parencite{temp_inegi, temp_inegi2} with the geostatistical framework (municipal projections) produced by \textcite{geo_inegi}. The information provided by the weather stations was spatially interpolated onto the municipal centroids using Inverse Distance Weighting (IDW) with $\mathrm{nmax}=10$ neighbors and power parameter $\mathrm{idp}=2$ \parencite{cressie1993, graler2016, pebesma2004}. Because the station records are unbalanced over 1902--2012, we first collapse each station to its long-run annual mean, maximum and minimum before interpolating, so that stations contribute a single summary observation each regardless of how many years they were active. See the panels in Figure \ref{fig:temp_maps}.
+
+Municipalities are then assigned to one of three climate zones by the following rule, which is applied uniformly to all five waves and is the definitive classification used throughout the paper:
+\begin{equation}
+    wt_m = \begin{cases}
+        1 \ (\text{hot}) & \text{if } T^{\max}_{\text{ann},m} \geq 30^{\circ}\mathrm{C} \ \wedge \ \bar{T}_m \geq 24^{\circ}\mathrm{C} \\
+        3 \ (\text{cold}) & \text{if } T^{\min}_{\text{ann},m} \leq 10^{\circ}\mathrm{C} \ \wedge \ \bar{T}_m \leq 12^{\circ}\mathrm{C} \\
+        2 \ (\text{temperate}) & \text{otherwise}
+    \end{cases}
+    \label{eq:climate}
+\end{equation}
+where $\bar{T}_m$, $T^{\max}_{\text{ann},m}$ and $T^{\min}_{\text{ann},m}$ denote the interpolated long-run average, average annual maximum and average annual minimum temperature of municipality $m$. The conjunctive form matters: requiring both a high maximum \emph{and} a high mean prevents municipalities with large diurnal ranges but mild averages from being classified as hot. Under this rule 15.9\% of the 2016 population lives in hot municipalities, 79.3\% in temperate and 4.9\% in cold (Table~\ref{tab:climate_pop}). Because the classification is static while the analysis window is not, and because the station network ends in 2012, Section~\ref{results} reports the sensitivity of all headline results to three alternative classifications (Tables~\ref{tab:climate_pop} and \ref{tab:climate_HM}).
+
+\begin{figure}[htbp]
+    \centering
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{EECC/figures/temp1.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/temp2.jpeg}} \\
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{EECC/figures/tmax_annual.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/tmin_annual.jpeg}}  \\
+    \subfigure[]{\includegraphics[width=0.49\textwidth]{EECC/figures/tmax_warmest.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/tmin_coldest.jpeg}} 
+    \caption{
+    \scriptsize
+    Temperature Maps. (a) Isoline map (average yearly temperature); (b) Municipality spatial join; (c) average yearly maximum temperature; (d) average yearly minimum temperature; (e) maximum yearly temperature; (f) minimum yearly temperature. Prepared by the author with data from \textcite{temp_inegi, temp_inegi2, geo_inegi}.}
+    \label{fig:temp_maps}
+\end{figure}
+
+\subsection{Methods}
+
+The following presentation follows directly from \textcite[pp. 24-50]{alkire2015}. Let $X \in \mathbb{R}_+^{n\times d}$ be the achievement matrix, such that there are $n\in\mathbb{N} \text{ with } N=\{1,2,...,n\}$ individuals across $d \in \mathbb{N} \text{ with } D=\{1,2,...,d\}$ dimensions. We retain the general real-valued achievement space of \textcite{alkire2015} for the exposition, but note that our empirical application specializes to the binary case: every achievement variable in Table~\ref{tab2} is an indicator, so $x_{ij}\in\{0,1\}$ and $z_j=1$ for all $j$. Hence $X=\{x_{ij}\}$ is the matrix containing as entries the $j$-th achievement of the $i$-th individual $\forall i = 1,2,...,n$ and $\forall j = 1,2,...,d$.\footnote{Note that the $i$-th row $x_i \in \mathbb{R}_+^d$ represents the achievements of $i$ across all $d \ \forall i$, similarly the $j$-th column $x_j \in \mathbb{R}_+^n$ represents the achievements of dimension $j$ across all $i \ \forall j$.} Let $z=(z_1,z_2,...,z_d)\in \mathbb{R}_{++}^d$ be the deprivation cutoff vector, such that matrix $G \in \{0,1\}^{n\times d}$ is the deprivation matrix where each $g_{ij}$ is defined as: \begin{equation}
+    g_{ij}(x_{ij};z_j)=\begin{cases}
+        1 \text{ if } x_{ij} < z_j \\
+        0 \text{ if } x_{ij} \geq z_j
+    \end{cases}
+    \label{eq:deprivation}
+\end{equation}
+
+If we assume that not all dimensions are relevant for all individuals, then: for each $j$-th dimension $\exists J_j\subseteq N$ such that $N=\bigcup_{j=1}^dJ_j$. Let $\mathcal{S} \in \{0,1\}^{n\times d}$ be the \textit{availability matrix}, with each $a_{ij}$ defined as:\footnote{We denote the availability matrix by $\mathcal{S}$ rather than $\mathcal{A}$ to avoid collision with the intensity of poverty $A$ defined in equation (\ref{eq:A}).} \begin{equation}
+    a_{ij}=\begin{cases}
+        1 \text{ if } i \in J_j \\
+        0 \text{ if } i \in J_j^c = N \setminus J_j
+    \end{cases}
+    \label{eq:availability}
+\end{equation}
+
+In the original \textcite[p. 30]{alkire2015} method each  dimension $j$ has a relative weight $w_j>0 \ \forall j$, thus $w=(w_1,w_2,...,w_d)\in \mathbb{R}_{++}^d$ where $\sum_{j=1}^dw_j=1$. In our proposed framework, for $i$-th individual we have: 
+\begin{align}
+    \tilde{w}_i&=\left(\frac{w_1a_{i1}}{\sum_{j=1}^dw_ja_{ij}},...,\frac{w_da_{id}}{\sum_{j=1}^dw_ja_{ij}} \right) \in \mathbb{R}_+^d, \quad \text{provided } \sum_{j=1}^dw_ja_{ij}>0 \ \forall i
+    \label{eq:weights}
+    \\ 
+    \Rightarrow c_i&=\sum_{j=1}^d\tilde{w}_{ij}\cdot g_{ij} \in [0,1] 
+    \label{eq:score}
+\end{align}
+
+The $i$-th row of $\mathcal{S}$ is given by $a_i\in \{0,1\}^d$, and is defined as the \textit{dimension availability vector} of $i$ across all $d$. Hence, in equation (\ref{eq:weights}), the condition $\sum_{j=1}^dw_ja_{ij}>0 \ \forall i$ is equivalent to $a_{i}\neq 0 \ \forall i$ (at least one dimension is relevant for each individual $i$). In our application the condition never binds, since the Tier-1 and Tier-2 dimensions are available to every individual regardless of climate zone. Equation (\ref{eq:score}) defines the deprivation score of each individual $i$, where $c_i \in [0,1]$ by construction: $\sum_{j=1}^d\tilde{w}_{ij}=1$ by (\ref{eq:weights}) and $g_{ij}\in\{0,1\}$ by (\ref{eq:deprivation}). Following the dual-cutoff approach \parencite[pp. 148-156]{alkire2015}, we define the poverty cutoff $k\in (0,1]$ as the minimum deprivation score required for an individual to be identified as multidimensionally poor. We can define the identification function $\rho_k : [0,1] \to \{0,1\}$, which acts on the deprivation score $c_i$ and therefore depends implicitly on $\tilde{w}_i$: \begin{equation}
+\rho_k(c_i) = \begin{cases}
+1 \text{ if } c_i \geq k \\
+0 \text{ if } c_i < k
+\end{cases}
+\label{eq:identification}
+\end{equation}
+
+This approach encompasses the union and intersection criteria as special cases. Given the specification of $\mathcal{S}$ outlined in equation (\ref{eq:availability}), $\tilde{w}_i$ varies across individuals; the union and intersection cutoffs, however, must hold universally across all availability subsets of $N$. The censored deprivation score is then: \begin{equation}
+c_i(k) = c_i \cdot \rho_k(c_i) = \begin{cases}
+c_i & \text{if } c_i \geq k \\
+0   & \text{if } c_i < k
+\end{cases}
+\label{eq:censored}
+\end{equation}
+
+Let $q=\sum_{i=1}^n \rho_k(c_i)$ denote the number of poor individuals, such that $Z = \{ i \in N : \rho_k(c_i) = 1 \}$ is the set of poor individuals, and let $D_i=\{j : a_{ij}=1\}$ be the set of dimensions available to individual $i$.\footnote{In the unweighted formulation $q\in\mathbb{N}$. In the empirical application every sum over $i$ is weighted by the expansion factor $f_i$, so that $\hat q=\sum_{i=1}^n f_i\,\rho_k(c_i)$ is a survey-weighted estimate of the size of the energy-poor population and is not an integer; the same substitution applies to $n$, which becomes $\sum_i f_i$. We keep the unweighted notation in the exposition for readability.} Then, the three identification cutoffs are: (\textit{i}) $k = \min_{i \in N} \min_{j \in D_i} \{\tilde{w}_{ij}\} $ (union); (\textit{ii})
+$k \in \left(\min_{i\in N}\min_{j\in D_i}\{\tilde{w}_{ij}\}, 1 \right)$ (middle-ground); and (\textit{iii}) $k = 1$ (intersection). From here we can define the incidence ($H$, share of the population in multidimensional poverty), intensity ($A$) and the adjusted headcount ratio ($M_0$) of poverty:\footnote{In the empirical application, all estimates are computed using ENIGH's stratified clustered design, with primary sampling units, design strata, and individual expansion factors $f_i$. The population share $\frac{n_l}{n}$ in the subgroup decomposition is replaced by the weighted share $\hat{\pi}_l=\frac{\sum_{i\in N_l}f_i}{\sum_{i\in N}f_i}$.} \begin{align}
+    H&=\frac{q}{n}=\frac{1}{n}\sum_{i=1}^n\rho_k(c_i)\in [0,1] \label{eq:H} \\
+    A&=\frac{\sum_{i=1}^nc_i(k)}{q}=\frac{\sum_{i=1}^nc_i(k)}{\sum_{i=1}^n\rho_k(c_i)}\in [0,1] \label{eq:A} \\
+    M_0 &= H\cdot A=\frac{q}{n}\cdot \frac{\sum_{i=1}^nc_i(k)}{q}=\frac{1}{n}\sum_{i=1}^nc_i(k)
+    \label{eq:M0}
+\end{align}
+
+For dimensional contributions, note that by (\ref{eq:score}) and (\ref{eq:censored}) we have that $c_i(k)=\sum_{j=1}^d\tilde{w}_{ij}\cdot g_{ij} \cdot \rho_k(c_i)$, such that we can write (\ref{eq:M0}) as:\begin{align}
+    M_0&=\frac{1}{n}\sum_{i=1}^nc_i(k)=\frac{1}{n}\sum_{i=1}^n \sum_{j=1}^d\tilde{w}_{ij}\cdot g_{ij} \cdot \rho_k(c_i) \nonumber \\
+    \Rightarrow M_0&=\sum_{j=1}^d\frac{1}{n}\sum_{i=1}^n \tilde{w}_{ij}\cdot g_{ij} \cdot \rho_k(c_i)=\sum_{j=1}^d\delta_j \label{eq:delta} \\
+   \Rightarrow \delta^{(r)}_j&=\frac{\delta_j}{M_0}\in [0,1] \label{eq:deltarel}
+\end{align}
+
+Where $\delta_j$ is the dimensional contribution of $j$ to $M_0$, hence $\delta_j^{(r)}$ is the relative contribution of $j$ to $M_0$, which implies that $\sum_{j=1}^d \delta^{(r)}_j=1$. Finally, for subgroup decomposition, we have that if $N$ is partitioned in $L \in \mathbb{N}$ mutually exclusive and exhaustive subsets, such that $N=\bigcup_{l=1}^L N_l$ and if $l\neq m \Rightarrow N_l\bigcap N_m=\emptyset$, with $n_l=|N_l| \ \forall l$ (which implies that $\sum_{l=1}^Ln_l=n$). Then: \begin{equation}
+    M_0=\frac{1}{n}\sum_{i=1}^nc_i(k)=\frac{1}{n}\sum_{l=1}^L\sum_{i \in N_l}c_i(k)=\sum_{l=1}^L\frac{n_l}{n}\cdot \frac{1}{n_l}\sum_{i \in N_l}c_i(k)=\sum_{l=1}^L\frac{n_l}{n}\cdot M_0^{(l)}
+    \label{eq:decomp}
+\end{equation}
+
+Therefore $M_0^{(l)}=H^{(l)}\cdot A^{(l)}$ is the adjusted headcount ratio within subgroup $l$, and $\frac{n_l}{n}$ is the share of the population $n$ within subgroup $l$. This additive decomposition holds for any partition (e.g., urban/rural, federal entity, ethnicity, income brackets); Appendix~\ref{app:axioms} discusses the sense in which it continues to hold when the availability sets $D_i$ differ across the partition, as they do for a partition by climate zone. Our empirical approximation for determining dimensions, cutoffs and weights is summarized in Tables \ref{tab1} and \ref{tab2}. Note that, by construction $z_j=1 \ \forall j=1,...,8$.  Weights $w_j$ follow the expert-judgment rationale of \textcite{nussbaumer2012}, extended to our eight-dimension setting via three tiers. \emph{Tier 1} (basic energy services tied to heat and light) includes Ea, Ck and Wt; \emph{Tier 2} (modern services contingent on electricity) includes Rf, Et and Cm; \emph{Tier 3} (conditional/contextual indicators) includes Tc and Af.
+
+\textcite[Table 2, p. 235]{nussbaumer2012} assign weights to \emph{six indicators} grouped into five dimensions: modern cooking fuel (0.20), indoor pollution (0.20) and electricity access (0.20) receive the higher weight, while household appliance ownership (0.13), entertainment/education appliance ownership (0.13) and telecommunication means (0.13) receive the lower one; the six weights sum to $0.99 \approx 1$. Their scheme therefore has a \emph{two}-tier $(3,3)$ structure, and the quantity we borrow from it is the ratio between adjacent tiers, $0.20/0.13 \approx 1.538$, rather than any of its absolute weights. Our third tier is our own extension: we continue the geometric progression one step further, imposing $w_1/w_2 = w_2/w_3 = 1.538$, so that the conditional indicators sit below the two tiers that Nussbaumer et al.\ do use. Renormalizing to our $(3, 3, 2)$ configuration over eight dimensions---i.e.\ solving $3 w_1 + 3 w_2 + 2 w_3 = 1$ with that ratio---yields $w_1 \approx 0.1726$, $w_2 \approx 0.1122$ and $w_3 \approx 0.0729$. Tier 3 weights lie strictly below the poverty cutoff $k=0.10$, so that a Tier-3 deprivation can never single-handedly identify a household as energy poor: it can only contribute to intensity ($A$) once the household is already poor on other dimensions. This design choice directly addresses the well-known concern that the Hills (\citeyear{hills2011}, \citeyear{hills2012}) affordability indicator conflates energy poverty with general income poverty: a household whose income falls below the line only after energy expenditures are deducted should not be classified as energy poor by that fact alone. Table~\ref{tab:robustness} reports results under three alternative weighting schemes (MCA on the pooled 2016--2024 cross-sections, equal weights, and frequency-based weights); MCA diagnostics appear in Table~\ref{tab:mca}.
+
+Two consequences of setting $k=0.10$ should be stated plainly, because they govern how the headline $H$ must be read. First, the smallest weight above the cutoff is the Tier-2 weight, $w_2 \approx 0.1122$ (0.1210 in temperate municipalities). Identification at $k=0.10$ is therefore \emph{operationally a union criterion over the six Tier-1 and Tier-2 dimensions}: a single deprivation in any of Ea, Ck, Wt, Rf, Et or Cm is sufficient to classify a household as energy poor, while the two Tier-3 indicators cannot do so individually. Our headline incidence should accordingly be read as ``the share of the population deprived in at least one of six access-related energy services''. We adopt the union end of the range deliberately, on the standard AF argument that each of these six services is individually essential---a household without electricity is energy poor whatever else it possesses---but the choice is consequential, and \textcite{nussbaumer2012} themselves use $k=0.3$. It follows that the eight dimensions do not enter symmetrically, and we prefer to say so at the outset: six of them determine both identification and intensity, while Tc and Af determine intensity alone---except through the joint Tier-3 route available in hot and cold municipalities, discussed in Section~\ref{conclu}. This is the intended design rather than a side effect, since the two Tier-3 indicators are precisely those whose claim to constitute energy poverty on their own is contestable, but a reader who takes ``eight dimensions'' to mean eight dimensions doing equivalent work will misread Table~\ref{tab3}. Second, and for that reason, Section~\ref{results} reports $H$, $A$ and $M_0$ at $k=0.30$ as a second headline alongside the union-end figure (Table~\ref{tab:ksens_headline}), and Figure~\ref{fig:ksens} traces the full $k \in [0.10, 0.30]$ range under all four weighting schemes.
+
+{
+\renewcommand{\arraystretch}{1}
+\begin{table}[htb]
+\centering
+\caption{Empirical Dimensions, Deprivation Cutoffs, and Weights}
+\small
+\begin{tabularx}{\textwidth}{c l X c c}
+\toprule
+\toprule
+$j$ & Dimension & Achievement condition ($x_{ij}=1$ if) & Tier & $w_j$ \\ \midrule
+1 & Electricity Access (Ea) & Has access to electricity & 1 & 0.1726 \\
+2 & Cooking (Ck) & Uses gas, electric, or solar stove; chimney required if biomass fuel is used \parencite{coneval2019} & 1 & 0.1726 \\
+3 & Water Heating (Wt) & Has gas, electric, or solar water heater or stove & 1 & 0.1726 \\
+4 & Refrigeration (Rf) & Has refrigerator & 2 & 0.1122 \\
+5 & Entertainment (Et) & Has television, radio, or computer with internet access & 2 & 0.1122 \\
+6 & Communication (Cm) & Has access to a cellphone or a landline at home & 2 & 0.1122 \\
+7 & Thermal Comfort$^a$ (Tc) & Hot climate: air conditioning, or at least 1 fan per 2 household members \parencite{garciaochoa2016}; Cold climate: heating system & 3 & 0.0729 \\
+8 & Affordability$^b$ (Af) & ICTPC computed net of energy expenditures is at or above the income poverty line $\ell_{ru}$ \parencite{hills2011, hills2012} & 3 & 0.0729 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{\textbf{Note:}} $^a$~The thermal comfort dimension applies only in hot or cold municipalities, classified by equation (\ref{eq:climate}) in Section~\ref{data} (as in \citealp{cedano2021}; and \citealp{robles-bonilla2021}); in temperate municipalities Tc is unavailable and weights are re-normalized over the remaining 7 dimensions via the availability matrix $\mathcal{S}$ (equation \ref{eq:availability}), giving $w_j = 0.1861$ for Tier 1, $w_j = 0.1210$ for Tier 2 and $w_j = 0.0786$ for Af (Tier 3) in temperate municipalities. $^b$~Following \textcite{inegi2023} expenditure codes, the goods and services taken into account are: electricity, natural gas, oil, diesel, stationary and non-stationary LP gas, liquid fuels, coal-charcoal, wood-based fuels, candles, and ``other biomass fuels''. These are mutually exclusive ENIGH expenditure codes, so no double counting arises between ``coal-charcoal'', ``wood-based fuels'' and ``other biomass fuels''. Candles are retained because as a lighting expenditure for households without electricity access, note that their share of the aggregate is negligible in every wave. 
+\textbf{\textbf{Source:}} table adapted from \textcite{garciaochoa2016} and \textcite{nussbaumer2012} using microdata from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab1}
+\end{table}
+}
+
+{
+\renewcommand{\arraystretch}{1.5}
+\begin{table}[ht]
+\centering
+\caption{Empirical Construction of the Achievement Matrix $X$}
+\small
+\begin{tabularx}{\textwidth}{l X c}
+\toprule
+\toprule
+$d_j$  & ENIGH Variables & $x_{ij}$ \\ \midrule
+Ea  & $ea\in\{1,...,5\}$ & $x_{i1}=\mathbf{1}(ea\leq 4)$ \\
+Ck  & $fu\in \{1,...,7\}; ch \in \{0,1\}$ & $x_{i2}=\mathbf{1}[fu \geq 3 \lor (fu < 3 \land ch = 1)]$  \\
+Wt   & $sh, gh\in\{0,1\}$; $st \in \mathbb{N}$ & $ x_{i3}=\mathbf{1}(sh=1 \lor gh=1 \lor st\geq 1)$ \\
+Rf  & $fr \in\mathbb{N}$ & $x_{i4}=\mathbf{1}(fr \geq 1)$ \\
+Et  & $tv,rd,cp \in \mathbb{N}$; $ic\in\{0,1\}$ & $x_{i5}=\mathbf{1}[tv\geq 1 \lor rd \geq 1 \lor (cp \geq 1 \land ic = 1)] $\\
+Cm  & $cl, tl\in \{0,1\}$ & $x_{i6}=\mathbf{1}(cl=1\lor tl =1)$ \\
+Tc  & $ac,ht\in\{0,1\}$; $wt\in \{1,2,3\}$; $hs, fn\in \mathbb{N}$ & $x_{i7}=\begin{cases}
+    \mathbf{1}(ac=1 \lor \frac{fn}{hs}\geq\frac{1}{2}) \text{ if } wt=1 \\
+    a_{i7}=0 \text{ (unavailable) if } wt=2 \\
+    \mathbf{1}(ht=1) \text{ if } wt=3
+\end{cases}$ \\
+Af  & $ict, ee, hs^e \in \mathbb{R_+}$; $ru\in\{0,1\}$ & $x_{i8}=\mathbf{1}\!\left(\frac{ict-ee}{hs^e}\geq \ell_{ru}\right)$ \\
+\addlinespace
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{\textbf{Note:}} Where $\mathbf{1}(\cdot)$ is the \textit{indicator function}. $ea =$ electricity access (1 = private, 2 = public, 3 = solar, 4 = other, 5 = no access); $sh =$ solar water heating; $gh =$ gas water heating; $st =$ number of stoves; $cl =$ cellphone; $tl =$ landline telephone; $tv =$ number of televisions (analogue plus digital); $rd =$ number of radios; $cp =$ number of computers; $ic =$ household internet connection; $fr =$ number of refrigerators; $fu =$ type of cooking fuel in use (1 = wood, 2 = coal, 3 = gas by tank, 4 = gas by pipe, 5 = electricity, 6 = other, 7 = household does not cook); $ch =$ chimney; $ict =$ total current household income; $ee =$ sum of energy expenditures; $hs^e =$ CONEVAL equivalence-scaled household size \parencite{coneval2019}; $ru =$ rural household; $ac =$ air conditioning; $ht =$ heating; $wt =$ type of weather (1 = hot, 2 = temperate, 3 = cold), assigned by equation (\ref{eq:climate}); $hs =$ household size; $fn =$ number of fans. Coding conventions: (\textit{i}) $\ell_{ru}$ is CONEVAL's \textit{income poverty line} (\textit{línea de pobreza por ingresos}, LPI), in current monthly pesos per equivalent adult at the time of each survey, with a rural--urban distinction: 2{,}903.91/2{,}030.14 (2016), 3{,}325.40/2{,}316.53 (2018), 3{,}559.53/2{,}519.95 (2020), 4{,}157.63/2{,}970.19 (2022) and 4{,}564.97/3{,}296.92 (2024), urban/rural respectively. The denominator $hs^e$ is CONEVAL's equivalence-scaled household size (\textit{tamaño del hogar ajustado por escalas de equivalencia})---the same denominator CONEVAL uses to construct ICTPC, which in the published microdata satisfies $\mathrm{ICTPC} \equiv ict/hs^e$ exactly. The Af achievement variable is therefore ICTPC recomputed net of energy expenditures, compared against precisely the line that defines income poverty; the comparison in Table~\ref{tab:af_circ} is exact rather than approximate for that reason. (\textit{ii}) For the cooking dimension, $fu \geq 3$ treats ``other'' ($fu=6$) and ``household does not cook'' ($fu=7$) as achievements, on the ground that a household with no cooking requirement is not thereby deprived. These two categories are jointly negligible and jointly stable: 0.281\% of the population in 2016 and 0.284\% in 2024. The split between them is not comparable across waves---category 7 is only distinguished from category 6 in the 2024 questionnaire, which is why $fu=6$ falls from 0.281\% to 0.032\% while $fu=7$ appears at 0.252\%---but since both are coded identically, this reclassification has no effect on the index. (\textit{iii}) For water heating, the $st\geq 1$ route follows the MAEN convention of \textcite{garciaochoa2016}, under which a stove is a device capable of heating water; Section~\ref{results} reports the overlap this induces with the cooking dimension. \textbf{\textbf{Source:}} Prepared by the author using microdata from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab2}
+\end{table}
+}
+
+\section{Results}\label{results}
+
+Our results reveal a substantial but uneven reduction in the incidence and intensity of energy poverty and its dimensional components. According to the estimated MEPI (see Tables~\ref{tab3} and \ref{tab3_1}) the share of the population living in energy poverty ($H$) fell from 30.23\% (36.5 million people) in 2016 to 22.64\% (29.5 million people) in 2024: a 7.59pp reduction in incidence corresponding to a 7.0 million decline in the energy-poor headcount, over a window in which the Mexican population grew from approximately 120.7 to 130.2 million \parencite{enigh2016, enigh2024}. 
+
+The adjusted headcount ratio ($M_0$) fell from 9.74\% to 6.90\% (a 2.84pp absolute, 29.1\% relative reduction), and the average intensity of poverty ($A$) decreased modestly by 1.73pp---those remaining in poverty experience on average 30.5\% of all weighted deprivations. The decline in $M_0$ is near-monotonic: a small uptick between 2016 (9.74\%) and 2018 (9.76\%), with continuous decline through 2020, 2022 and 2024. The 2016--2018 movement is not statistically distinguishable from zero for any of the three indices ($\Delta M_0 = +0.018$pp, $z=0.08$, $p=0.936$; $\Delta H = -0.352$pp, $z=-0.67$, $p=0.500$; $\Delta A = +0.441$pp, $z=0.46$, $p=0.644$), and it is not robust to the climate-zone classification (Table~\ref{tab:climate_HM}), which reinforces reading it as statistical noise.
+
+The trajectory after 2018 is robust in the following precise sense. The \emph{relative} reduction in $M_0$ over 2016--2024 lies between 28.2\% and 31.4\% across the four weighting schemes (NB $-29.1$\%, MCA $-31.4$\%, equal $-28.2$\%, frequency $-30.6$\%; Table~\ref{tab:robustness}) and between 28.5\% and 29.2\% across the four climate-zone classifications (Table~\ref{tab:climate_HM}). The climate classification is thus the \emph{more} robust of the two margins, not the less. \emph{Levels}, by contrast, are not scheme-invariant at all: 2016 incidence ranges from 26.13\% under MCA to 61.76\% under equal weights, a factor of 2.4. The reason is the interaction between the weight spread and the cutoff, not the weights themselves: under equal weights every $w_j = 0.125 > k = 0.10$, so all eight dimensions---including affordability, with a 52.98\% deprivation rate---can identify a household on their own, whereas NB's three-tier structure deliberately places Af and Tc below $k$. One consequence deserves explicit statement, since a reader checking Table~\ref{tab:robustness} will otherwise find it: under equal weights $H$ \emph{rises} between 2018 and 2020 (61.41\% to 62.94\%). The claim of a monotone post-2018 decline therefore holds for $M_0$ under all four schemes and for $H$ under three of the four.
+
+\begin{table}[htbp]
+\centering
+\caption{Multidimensional Energy Poverty Index: National Estimates (means-shares, \%), 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X cccccc}
+\toprule
+\toprule
+ & & 2016 & 2018 & 2020 & 2022 & 2024 & $\Delta$ (pp) \\ \midrule
+\multicolumn{7}{l}{\textit{MEP Index components}} \\[2pt]
+& $H^a$ & 30.234 & 29.882 & 27.255 & 26.415 & 22.639 & $-$7.595$^{***}$ \\
+&        & {\footnotesize (0.371)} & {\footnotesize (0.367)} & {\footnotesize (0.365)} & {\footnotesize (0.343)} & {\footnotesize (0.327)} & \\[2pt]
+& $A^b$ & 32.205 & 32.646 & 31.356 & 31.082 & 30.479 & $-$1.726$^{*}$ \\
+&        & {\footnotesize (0.671)} & {\footnotesize (0.677)} & {\footnotesize (0.692)} & {\footnotesize (0.702)} & {\footnotesize (0.747)} & \\[2pt]
+& $M_0^c$ & 9.737 & 9.755 & 8.546 & 8.210 & 6.900 & $-$2.837$^{***}$ \\
+&          & {\footnotesize (0.164)} & {\footnotesize (0.163)} & {\footnotesize (0.150)} & {\footnotesize (0.152)} & {\footnotesize (0.137)} & \\[4pt]
+\multicolumn{7}{l}{\textit{Dimensional deprivation rates}} \\[2pt]
+& Ea & 0.409 & 0.395 & 0.222 & 0.321 & 0.242 & $-$0.166$^{***}$ \\
+&    & {\footnotesize (0.043)} & {\footnotesize (0.043)} & {\footnotesize (0.021)} & {\footnotesize (0.038)} & {\footnotesize (0.026)} & \\
+& Ck & 11.635 & 12.589 & 11.697 & 11.311 & 9.698 & $-$1.936$^{***}$ \\
+&    & {\footnotesize (0.286)} & {\footnotesize (0.264)} & {\footnotesize (0.256)} & {\footnotesize (0.245)} & {\footnotesize (0.244)} & \\
+& Wt & 9.741 & 9.753 & 8.486 & 8.490 & 7.342 & $-$2.399$^{***}$ \\
+&    & {\footnotesize (0.303)} & {\footnotesize (0.270)} & {\footnotesize (0.253)} & {\footnotesize (0.267)} & {\footnotesize (0.235)} & \\
+& Rf & 13.758 & 13.159 & 11.003 & 10.274 & 9.209 & $-$4.549$^{***}$ \\
+&    & {\footnotesize (0.305)} & {\footnotesize (0.286)} & {\footnotesize (0.254)} & {\footnotesize (0.258)} & {\footnotesize (0.224)} & \\
+& Et & 3.918 & 4.913 & 4.510 & 6.112 & 5.593 & $+$1.676$^{***}$ \\
+&    & {\footnotesize (0.137)} & {\footnotesize (0.146)} & {\footnotesize (0.125)} & {\footnotesize (0.149)} & {\footnotesize (0.140)} & \\
+& Cm & 9.196 & 7.879 & 4.904 & 3.887 & 2.582 & $-$6.614$^{***}$ \\
+&    & {\footnotesize (0.239)} & {\footnotesize (0.196)} & {\footnotesize (0.142)} & {\footnotesize (0.126)} & {\footnotesize (0.089)} & \\
+& Tc$^d$ & 61.746 & 61.259 & 57.850 & 55.828 & 50.577 & $-$11.169$^{***}$ \\
+&    & {\footnotesize (1.001)} & {\footnotesize (1.095)} & {\footnotesize (1.021)} & {\footnotesize (0.967)} & {\footnotesize (1.091)} & \\
+& Af & 52.983 & 52.239 & 55.207 & 45.840 & 37.333 & $-$15.650$^{***}$ \\
+&    & {\footnotesize (0.366)} & {\footnotesize (0.346)} & {\footnotesize (0.309)} & {\footnotesize (0.320)} & {\footnotesize (0.346)} & \\[4pt]
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All estimates computed using ENIGH's stratified clustered design with individual expansion factors \parencite{inegi2023}. Linearized standard errors in parentheses. $\Delta$ (2016--2024) in pp; significance under cross-sectional independence: $\mathrm{SE}(\Delta)=\sqrt{\widehat{\mathrm{SE}}_{2016}^2+\widehat{\mathrm{SE}}_{2024}^2}$. $^{***}$\,$p<0.01$, $^{**}$\,$p<0.05$, $^{*}$\,$p<0.10$. $^a$~Poverty cutoff $k=0.10$; under the NB three-tier scheme (Table~\ref{tab1}), any single Tier-1 ($w \approx 0.173$) or Tier-2 ($w \approx 0.112$) deprivation suffices to identify a household as energy poor, while a single Tier-3 deprivation ($w \approx 0.073$) does not---Af and Tc only contribute to intensity once the household is poor on other dimensions. $^b$~Share (\%) of weighted deprivations experienced by the poor. $^c$~Share (\%) of all possible weighted deprivations experienced by the population through the poor. $^d$~The thermal comfort (Tc) rate is computed over the hot and cold subpopulation only---the 20.7\% of individuals in 2016 for whom the dimension is available under equation (\ref{eq:climate}), a share that ranges from 20.5\% to 22.2\% across waves---and is \emph{not} a national rate. The corresponding national count is 15.47 million individuals in 2016 (Table~\ref{tab3_1}). All other dimensional rates are national. Delta tests for every row, including SE($\Delta$), $z$ and $p$, are reported in Table~\ref{tab:delta}. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab3}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Robustness: MEP Estimates Under Alternative Weighting Schemes, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{c X rr rr rr rr}
+\toprule
+\toprule
+& & \multicolumn{2}{c}{NB weights (main)} & \multicolumn{2}{c}{MCA weights} & \multicolumn{2}{c}{Equal weights ($1/d$)} & \multicolumn{2}{c}{Frequency weights} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10}
+Year & & $H$ & $M_0$ & $H$ & $M_0$ & $H$ & $M_0$ & $H$ & $M_0$ \\ \midrule
+2016 & & 30.234 & 9.737 & 26.129 & 7.052 & 61.762 & 15.670 & 30.234 & 9.621 \\
+2018 & & 29.882 & 9.755 & 25.975 & 7.004 & 61.412 & 15.585 & 29.882 & 9.565 \\
+2020 & & 27.255 & 8.546 & 22.566 & 5.830 & 62.936 & 14.847 & 27.255 & 8.263 \\
+2022 & & 26.415 & 8.210 & 22.399 & 5.719 & 55.933 & 13.442 & 26.415 & 7.951 \\
+2024 & & 22.639 & 6.900 & 19.505 & 4.840 & 47.893 & 11.258 & 22.639 & 6.675 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%. NB weights are the main scheme reported throughout the paper (see Table~\ref{tab1}); they follow the expert-judgment rationale of \textcite{nussbaumer2012}. MCA weights (Table~\ref{tab:mca}) are estimated on the pooled 2016--2024 cross-sections. Equal weights assign $w_j=1/8$ for hot/cold municipalities and $w_j=1/7$ for temperate (Tc excluded). Frequency weights set $w_j \propto (1-\bar{p}_j)$, where $\bar{p}_j$ is the pooled weighted deprivation rate, normalized to sum to 1. The MCA and frequency schemes are both estimated on the hot/cold subsample (21.4\% of the pooled cross-sections), since both require all eight indicators to be simultaneously defined; see the note to Table~\ref{tab:mca}. Poverty cutoff $k=0.10$ throughout. Of the three alternatives, the frequency scheme is the least demanding test: with seven of eight deprivation rates below 12\%, $w \propto (1-\bar p_j)$ compresses the weights into $[0.065, 0.154]$ and reproduces the NB above/below-$k$ partition exactly, so it varies the intensity calculation without varying identification at all. Equal weights and MCA are the informative contrasts. \emph{Three coincidences in this table are structural rather than coding artefacts, and are worth stating explicitly.} (\textit{i})~The exact equality of $H$ across the NB and frequency-based schemes: under both, the same six dimensions (Ea, Ck, Wt, Rf, Et, Cm) have $w_j \geq k$ and the same two (Tc, Af) have $w_j < k$, so the identification function classifies exactly the same households as poor. The schemes nonetheless produce different $M_0$ because the censored scores $c_i(k)$ depend on the exact weights, not only on the sign of $w_j-k$. (\textit{ii})~The MCA column of $H$ is identical, to three decimals in all five waves, to the NB-noAf column of Table~\ref{tab:af_drop}. This follows from the same logic: MCA places the same six dimensions at or above $k$ and leaves Af and Tc jointly below it ($0.0312+0.0291=0.060<0.10$), so its identification set coincides with that of a scheme in which Af has been dropped and only Tc remains below the cutoff. (\textit{iii})~Consequently the proportional gap between NB and MCA incidence, $(H_{\mathrm{NB}}-H_{\mathrm{MCA}})/H_{\mathrm{NB}}$, equals the Tier-3-only share reported in Panel C of Table~\ref{tab:af_circ} to two decimals in every wave: 13.58, 13.07, 17.20, 15.20 and 13.84 against 13.58, 13.07, 17.20, 15.20 and 13.85. The three facts together provide an internal consistency check on the identification logic. (\textit{iv})~Finally, the equal-weights column produces $H \approx 62\%$ in 2016 not because its weights are unusual but because \emph{all} of them exceed the cutoff: with $w_j = 0.125 > k = 0.10$ on every dimension, affordability---deprivation rate 52.98\%---identifies households on its own, which the three-tier design deliberately prevents. Levels are therefore not comparable across schemes; trends are. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:robustness}
+\end{table}
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[NB weights (main)]{\includegraphics[width=0.45\textwidth]{EECC/figures/k_sens_NB.jpeg}}
+    \subfigure[MCA weights]
+    {\includegraphics[width=0.45\textwidth]{EECC/figures/k_sens_MCA.jpeg}}  \\
+    \subfigure[Frequency-derived weights]{\includegraphics[width=0.45\textwidth]{EECC/figures/k_sens_FQ.jpeg}}
+    \subfigure[Equal weights]
+    {\includegraphics[width=0.45\textwidth]{EECC/figures/k_sens_EQ.jpeg}}
+    \caption{
+    \scriptsize
+    $k$ Sensitivity of $M_0$ under Alternative Poverty Cutoffs and Weight Schemes, 2016--2024. Shaded bands are 95\% confidence intervals ($\pm 1.96\,\widehat{\mathrm{SE}}$). Panel (d) is evaluated on a different grid of cutoffs (0.125, 0.25, 0.375, \ldots) from panels (a)--(c). This is not an error: under equal weights every $w_j = 1/8$, so the deprivation score $c_i$ can only take multiples of $0.125$ and $M_0$ is a step function that changes value only at those points. Evaluating panel (d) on the finer common grid would simply repeat each value several times. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.}
+    \label{fig:ksens}
+\end{figure}
+
+Also between 2016--2024, we can report a reduction in incidence through all dimensions but one: entertainment (which grew by 1.68pp). In \emph{absolute} terms---percentage points of the deprivation rate---the biggest improvements were made in affordability ($-$15.65pp), thermal comfort ($-$11.17pp) and communication ($-$6.61pp). The \emph{relative} ranking is entirely different, and informative in its own right: communication falls by 71.9\%, electricity access by 40.7\% and refrigeration by 33.1\%, while affordability---the largest absolute mover---falls by 29.5\% and thermal comfort by only 18.1\%. The contrast reflects the very different bases involved: thermal comfort and affordability start from deprivation rates above 50\%, so large percentage-point movements are relatively modest proportional ones, whereas communication deprivation was nearly eliminated from an already low base. 
+
+Entertainment rises by 42.8\% in relative terms, the largest proportional movement of any dimension in either direction; Section~\ref{sec:indicator} shows this to be an artefact of the indicator rather than a deterioration in living conditions. In absolute numbers of people, the ranking changes again: the largest reductions were in affordability ($-$15.4 million), communication ($-$7.7 million) and refrigeration ($-$4.6 million). The large improvements made in the affordability dimension are consistent with the literature on the recent trends in wages and multidimensional poverty in Mexico (see \citealp{campos-vazquez2020}; \citealp{campos-vazquez2021}; \citealp{campos-vazquez2023}; \citealp{munguiacorella2023}; and \citealp{zotero-item-1074}).
+
+With respect to $M_0$---see Table~\ref{tab:dim_contributions}---we observe that the adjusted headcount ratio decreases near-monotonically (with a small, statistically insignificant uptick between 2016 and 2018, and a continuous decline thereafter even through the COVID-19 pandemic shock) from 9.737\% (2016) to 6.900\% (2024). This represents a substantial 29.1\% relative reduction in the breadth and depth of energy poverty over the eight-year period. This reflects a generalized reduction in censored deprivations across most dimensions, as seen in the decline of their absolute contributions $\delta_j$. The internal composition is reasonable for an energy-poverty index: the largest contributors to $M_0$ in 2024 are cooking (25.5\%), water heating (19.4\%), affordability (17.3\%) and refrigeration (15.9\%); no single dimension dominates, and the affordability indicator---deliberately weighted into Tier 3 below the poverty cutoff $k$---contributes meaningfully only via households already deprived in other dimensions. The internal structure has nonetheless reconfigured: relative contractions in $\delta_j^{(r)}$ are observed in communication ($-$6.79pp), affordability ($-$1.88pp), refrigeration ($-$0.93pp), thermal comfort ($-$0.16pp) and electricity access ($-$0.14pp), while expansions are observed in entertainment ($+$4.83pp), cooking ($+$3.88pp) and water heating ($+$1.20pp): these trends are observable in Figure \ref{fig:dim}.
+
+\begin{table}[htb]
+\centering
+\caption{Dimensional Contributions to $M_0$ (absolute and relative shares), 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{X cccccccccc}
+\toprule
+\toprule
+ & \multicolumn{2}{c}{2016} & \multicolumn{2}{c}{2018} & \multicolumn{2}{c}{2020} & \multicolumn{2}{c}{2022} & \multicolumn{2}{c}{2024} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11}
+$d_j$ & $\delta_j$ & $\delta_j^{(r)}$ & $\delta_j$ & $\delta_j^{(r)}$ & $\delta_j$ & $\delta_j^{(r)}$ & $\delta_j$ & $\delta_j^{(r)}$ & $\delta_j$ & $\delta_j^{(r)}$ \\
+\midrule
+Ea   & 0.075 & 0.766 & 0.072 & 0.743 & 0.040 & 0.474 & 0.059 & 0.717 & 0.043 & 0.624 \\
+     & {\footnotesize (0.008)} & & {\footnotesize (0.008)} & & {\footnotesize (0.004)} & & {\footnotesize (0.007)} & & {\footnotesize (0.005)} & \\[2pt]
+Ck   & 2.107 & 21.644 & 2.279 & 23.362 & 2.114 & 24.738 & 2.048 & 24.940 & 1.761 & 25.522 \\
+     & {\footnotesize (0.052)} & & {\footnotesize (0.048)} & & {\footnotesize (0.047)} & & {\footnotesize (0.045)} & & {\footnotesize (0.045)} & \\[2pt]
+Wt   & 1.775 & 18.226 & 1.775 & 18.195 & 1.543 & 18.049 & 1.546 & 18.831 & 1.340 & 19.423 \\
+     & {\footnotesize (0.056)} & & {\footnotesize (0.050)} & & {\footnotesize (0.047)} & & {\footnotesize (0.049)} & & {\footnotesize (0.043)} & \\[2pt]
+Rf   & 1.637 & 16.811 & 1.562 & 16.011 & 1.305 & 15.265 & 1.220 & 14.861 & 1.096 & 15.879 \\
+     & {\footnotesize (0.037)} & & {\footnotesize (0.034)} & & {\footnotesize (0.030)} & & {\footnotesize (0.031)} & & {\footnotesize (0.027)} & \\[2pt]
+Et   & 0.466 & 4.788 & 0.583 & 5.971 & 0.534 & 6.250 & 0.724 & 8.817 & 0.664 & 9.622 \\
+     & {\footnotesize (0.016)} & & {\footnotesize (0.017)} & & {\footnotesize (0.015)} & & {\footnotesize (0.018)} & & {\footnotesize (0.017)} & \\[2pt]
+Cm   & 1.094 & 11.240 & 0.937 & 9.610 & 0.583 & 6.823 & 0.462 & 5.624 & 0.307 & 4.451 \\
+     & {\footnotesize (0.029)} & & {\footnotesize (0.024)} & & {\footnotesize (0.017)} & & {\footnotesize (0.015)} & & {\footnotesize (0.011)} & \\[2pt]
+Tc   & 0.717 & 7.368 & 0.733 & 7.510 & 0.740 & 8.657 & 0.659 & 8.026 & 0.497 & 7.204 \\
+     & {\footnotesize (0.030)} & & {\footnotesize (0.034)} & & {\footnotesize (0.030)} & & {\footnotesize (0.026)} & & {\footnotesize (0.023)} & \\[2pt]
+Af   & 1.865 & 19.158 & 1.814 & 18.598 & 1.687 & 19.743 & 1.493 & 18.184 & 1.192 & 17.273 \\
+     & {\footnotesize (0.028)} & & {\footnotesize (0.027)} & & {\footnotesize (0.027)} & & {\footnotesize (0.025)} & & {\footnotesize (0.023)} & \\[4pt]
+\midrule
+Total & 9.737 & 100 & 9.755 & 100 & 8.546 & 100 & 8.210 & 100 & 6.900 & 100 \\
+      & {\footnotesize (0.256)} & & {\footnotesize (0.242)} & & {\footnotesize (0.217)} & & {\footnotesize (0.217)} & & {\footnotesize (0.193)} & \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All estimates in \% computed using ENIGH's stratified clustered design with individual expansion factors \parencite{inegi2023}. $\delta_j$ denotes the censored dimensional contribution, and $\delta_j^{(r)}$ its percentage contribution to total $M_0$, see equation (\ref{eq:delta}) and (\ref{eq:deltarel}). Linearized standard errors in parentheses below $\delta_j$ only; no SE reported for $\delta_j^{(r)}$ (ratio of estimates). \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:dim_contributions}
+\end{table}
+
+\begin{figure}[htb]
+    \centering
+\includegraphics[width=0.9\textwidth]{EECC/figures/dim.jpeg}
+    \caption{
+    \scriptsize
+    Dimensional contributions to $M_0$ (2016--2024). Prepared by the author with data from \textcite{temp_inegi, geo_inegi, enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.}
+    \label{fig:dim}
+\end{figure}
+
+The disaggregated data by sociodemographic subgroups compiled in Table \ref{tab4} underscore the structural character of vulnerabilities in Mexico (see \citealp{coneval2019a}, for example). As of 2024, rural and indigenous individuals, the multidimensionally poor, children, and individuals in households with educational lag continue to endure disproportionate rates of MEP: with gaps (and factors) amounting to 35.02pp ($\times$3.34), 55.85pp ($\times$3.96), 36.44pp ($\times$4.07), 5.91pp ($\times$1.28) and 23.74pp ($\times$2.30) respectively.
+
+The direction of change, however, depends on whether gaps are read in percentage points or in ratios, and the two give opposite answers. In percentage points, the indigenous/non-indigenous gap is the only one that widened ($+$2.65pp, from 53.20pp in 2016 to 55.85pp in 2024), while the rural--urban, poverty, educational-lag and children gaps all narrowed. In ratios, \emph{every} disadvantaged group lost ground: rural incidence moves from 2.77 to 3.34 times urban incidence, indigenous from 2.99 to 3.96, poor from 3.92 to 4.07, children from 1.24 to 1.28, and educational lag from 1.98 to 2.30 (Table~\ref{tab4b}). This is a direct consequence of $H$ falling everywhere: when a common proportional improvement is applied to very different bases, absolute gaps compress while relative ones do not. Substantively it qualifies the convergence narrative considerably---the advantaged groups improved faster in proportional terms, so the \emph{relative} disadvantage of every vulnerable group in the table increased over 2016--2024.
+
+However, convergence is indeed observed regarding the elderly/non-elderly gap, which inverted: in 2016 individuals aged 65 and over were 0.68pp \emph{more} energy poor than the rest of the population ($H$ of 30.86\% against 30.18\%), while by 2024 they are 0.83pp \emph{less} energy poor (21.90\% against 22.73\%), a ratio moving from 1.02 to 0.96. This is the only row of Table~\ref{tab4b} in which the ratio moves towards parity, and it is driven by a larger absolute decline for the elderly ($-$8.97pp, $z=-12.14$) than for the non-elderly ($-$7.46pp, $z=-14.38$).
+
+Across the income distribution (ICTPC centiles), as expected, we can observe a steady quasi-monotonically decreasing trend regarding $H$ and $A$ as income increases. Moreover, we observe a positive relationship between $\Delta H$ and ICTPC centiles: regressing the 2016--2024 change in incidence on the centile rank gives a slope of $0.148$pp per centile (SE $0.014$, $t=10.47$, $p<0.001$, $R^2=0.53$, $n=100$), so incidence fell by roughly 14.8pp more at the bottom of the distribution than at the top. Energy poverty is therefore converging in levels across the income distribution, and the convergence is statistically well determined rather than merely visual (see the panels of Figure \ref{fig:MEPIcen_plots}).
+
+The observed spatial distribution of energy poverty, which tracks broader patterns of vulnerability, goes in line with previous findings, both in multidimensional poverty \parencite{coneval2019a, zotero-item-1075} and energy poverty \parencite{garcia-ochoa2016, jimeneztorres2026}: regional disparities are stark. These results are presented in the panels of Figure \ref{fig:result_maps}, and the underlying estimates for all 32 federal entities are reported in Table~\ref{tab:states}. The southern and southeastern states of Mexico (Campeche, Chiapas, Guerrero, Oaxaca, Tabasco, Quintana Roo, Yucatán) display higher rates of MEP incidence ($H$) and intensity ($A$): Chiapas alone records $H = 64.46\%$ and $M_0 = 27.79\%$ in 2024, against national figures of 22.64\% and 6.90\%. Lower average per capita incomes compared with other parts of the country are also visible in this region, especially compared with northern states (e.g., Coahuila, Durango, Nuevo León, Sonora, Tamaulipas). 
+
+Nonetheless, MEP incidence is decreasing across the country with one exception: the northern state of Durango, where $H$ rose from 12.20\% to 14.31\% ($+$2.10pp) and $M_0$ from 2.90\% to 4.22\%. Shifts in $A$ across Mexican states follow a similar trend---the average share of deprivations experienced by the poor is decreasing---with the exception of Chihuahua, where $A$ rose from 26.57\% to 27.55\% ($+$0.99pp) even as its incidence fell by 5.45pp, and, again, Durango, where $A$ rose from 23.79\% to 29.50\% ($+$5.71pp). Durango is thus the only entity in which incidence and intensity both deteriorate. Finally, panel (f) reports the real growth rate of ICTPC by state, which together with the centile regression above suggests that income growth is a substantive part of the MEP reduction; we do not attempt to identify that relationship causally here. 
+
+
+\begin{table}[htbp]
+\centering
+\caption{Multidimensional Energy Poverty Incidence ($H$) and Intensity ($A$) by Sociodemographic Subgroup (means-share, \%), 2016 and 2024}
+\small
+\begin{tabularx}{\textwidth}{X X cccccc}
+\toprule
+\toprule
+ & & \multicolumn{2}{c}{$H$} & \multicolumn{2}{c}{$A$} & \multicolumn{2}{c}{$\Delta$ (pp)} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
+Category & Subgroup & $2016$ & $2024$ & $2016$ & $2024$ & $H$ & $A$ \\ \midrule
+\multirow{4}{*}{Rural}
+ & Urban        & 21.484 & 14.985 & 25.653 & 23.656 & $-$6.499$^{***}$ & $-$1.997$^{*}$ \\
+ &              & {\footnotesize (0.405)} & {\footnotesize (0.340)} & {\footnotesize (0.733)} & {\footnotesize (0.842)} & & \\
+ & Rural        & 59.452 & 50.003 & 40.111 & 37.788 & $-$9.449$^{***}$ & $-$2.323$^{*}$ \\
+ &              & {\footnotesize (0.783)} & {\footnotesize (0.802)} & {\footnotesize (1.048)} & {\footnotesize (1.135)} & & \\[4pt]
+\multirow{4}{*}{Indigenous}
+ & Non-indigenous & 26.785 & 18.867 & 29.013 & 26.197 & $-$7.918$^{***}$ & $-$2.816$^{***}$ \\
+ &               & {\footnotesize (0.397)} & {\footnotesize (0.327)} & {\footnotesize (0.700)} & {\footnotesize (0.717)} & & \\
+ & Indigenous    & 79.989 & 74.715 & 48.416 & 46.023 & $-$5.274$^{***}$ & $-$2.393 \\
+ &               & {\footnotesize (1.256)} & {\footnotesize (1.117)} & {\footnotesize (1.654)} & {\footnotesize (1.485)} & & \\[4pt]
+\multirow{4}{*}{Poverty}
+ & Non-poor & 13.367 & 11.876 & 22.256 & 22.236 & $-$1.491$^{***}$ & $-$0.020 \\
+ &          & {\footnotesize (0.252)} & {\footnotesize (0.219)} & {\footnotesize (0.623)} & {\footnotesize (0.609)} & & \\
+ & Poor     & 52.406 & 48.320 & 35.539 & 35.313 & $-$4.086$^{***}$ & $-$0.226 \\
+ &          & {\footnotesize (0.657)} & {\footnotesize (0.781)} & {\footnotesize (0.763)} & {\footnotesize (0.966)} & & \\[4pt]
+\multirow{4}{*}{Children}
+ & Adults   & 28.061 & 21.000 & 31.489 & 29.505 & $-$7.061$^{***}$ & $-$1.984$^{*}$ \\
+ &          & {\footnotesize (0.328)} & {\footnotesize (0.299)} & {\footnotesize (0.605)} & {\footnotesize (0.678)} & & \\
+ & Children & 34.659 & 26.907 & 33.385 & 32.458 & $-$7.752$^{***}$ & $-$0.927 \\
+ &          & {\footnotesize (0.520)} & {\footnotesize (0.468)} & {\footnotesize (0.857)} & {\footnotesize (0.997)} & & \\[4pt]
+\multirow{4}{*}{Elderly}
+ & Non-elderly & 30.181 & 22.725 & 32.092 & 30.475 & $-$7.456$^{***}$ & $-$1.617 \\
+ &             & {\footnotesize (0.388)} & {\footnotesize (0.344)} & {\footnotesize (0.697)} & {\footnotesize (0.783)} & & \\
+ & Elderly     & 30.862 & 21.896 & 33.501 & 30.511 & $-$8.966$^{***}$ & $-$2.989$^{**}$ \\
+ &             & {\footnotesize (0.589)} & {\footnotesize (0.446)} & {\footnotesize (1.000)} & {\footnotesize (0.942)} & & \\[4pt]
+\multirow{4}{*}{Educ.\ lag}
+ & No educ.\ lag & 25.599 & 18.218 & 29.945 & 27.950 & $-$7.380$^{***}$ & $-$1.995$^{*}$ \\
+ &               & {\footnotesize (0.360)} & {\footnotesize (0.302)} & {\footnotesize (0.670)} & {\footnotesize (0.725)} & & \\
+ & Educ.\ lag    & 50.700 & 41.954 & 37.244 & 35.276 & $-$8.747$^{***}$ & $-$1.967$^{*}$ \\
+ &               & {\footnotesize (0.583)} & {\footnotesize (0.580)} & {\footnotesize (0.815)} & {\footnotesize (0.897)} & & \\ \bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All estimates computed using ENIGH's stratified clustered design with individual expansion factors \parencite{inegi2023}. Linearized standard errors in parentheses. $\Delta$ significance: $^{***}$\,$p<0.01$, $^{**}$\,$p<0.05$, $^{*}$\,$p<0.10$; $\mathrm{SE}(\Delta)=\sqrt{\widehat{\mathrm{SE}}_{2016}^2+\widehat{\mathrm{SE}}_{2024}^2}$. Adjusted headcount ratios $M_0^{(l)}$, population shares and relative gaps for the same subgroups are reported in Table~\ref{tab4b}.
+Children = individuals aged $\leq 17$. Elderly = individuals aged $\geq 65$. Indigenous = Indigenous language speaker. Poverty = \textcite{coneval2019} multidimensional poverty classification.
+Educ.\ lag = household with educational lag (see \citealp{coneval2019}).
+\textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab4}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Adjusted Headcount Ratio, Population Shares and Relative Gaps by Sociodemographic Subgroup (\%), 2016 and 2024}
+\small
+\begin{tabularx}{\textwidth}{X X c cc cc cc}
+\toprule
+\toprule
+ & & & \multicolumn{2}{c}{$M_0^{(l)}$} & \multicolumn{2}{c}{Gap in $H$ (pp)} & \multicolumn{2}{c}{Ratio in $H$} \\
+\cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9}
+Category & Subgroup & $\hat{\pi}_l$ & 2016 & 2024 & 2016 & 2024 & 2016 & 2024 \\ \midrule
+\multirow{2}{*}{Rural}
+ & Urban          & 78.14 & 5.511  & 3.545  &       &       &      &      \\
+ & Rural          & 21.86 & 23.847 & 18.895 & 37.97 & 35.02 & 2.77 & \textbf{3.34} \\[3pt]
+\multirow{2}{*}{Indigenous}
+ & Non-indigenous & 90.71 & 7.771  & 4.943  &       &       &      &      \\
+ & Indigenous     &  6.11 & 38.727 & 34.386 & 53.20 & 55.85 & 2.99 & \textbf{3.96} \\[3pt]
+\multirow{2}{*}{Poverty}
+ & Non-poor       & 70.46 & 2.975  & 2.641  &       &       &      &      \\
+ & Poor           & 29.53 & 18.625 & 17.063 & 39.04 & 36.44 & 3.92 & \textbf{4.07} \\[3pt]
+\multirow{2}{*}{Children}
+ & Adults         & 72.25 & 8.836  & 6.196  &       &       &      &      \\
+ & Children       & 27.75 & 11.571 & 8.734  &  6.60 &  5.91 & 1.24 & \textbf{1.28} \\[3pt]
+\multirow{2}{*}{Elderly}
+ & Non-elderly    & 89.63 & 9.686  & 6.925  &       &       &      &      \\
+ & Elderly        & 10.37 & 10.339 & 6.681  &  0.68 & $-$0.83 & 1.02 & \textbf{0.96} \\[3pt]
+\multirow{2}{*}{Educ.\ lag}
+ & No educ.\ lag  & 81.37 & 7.665  & 5.092  &       &       &      &      \\
+ & Educ.\ lag     & 18.63 & 18.882 & 14.800 & 25.10 & 23.74 & 1.98 & \textbf{2.30} \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%. $\hat{\pi}_l$ is the ENIGH-weighted population share of the subgroup in 2024. Shares are reported so that the reader can verify the decomposition in equation (\ref{eq:decomp}): $\sum_l \hat{\pi}_l M_0^{(l)} = M_0 = 6.900$ for every partition shown, up to rounding. The one exception is the Indigenous partition, whose shares sum to 96.8\% because indigenous-language information is missing for 3.2\% of individuals; that row's decomposition therefore does not close exactly. Standard errors for $M_0^{(l)}$ are omitted for legibility and are reported in the replication output (\texttt{7\_diagnostics.R}); they range from 0.05 to 1.18. ``Gap'' is the disadvantaged subgroup's incidence minus the reference subgroup's, in percentage points; ``Ratio'' is their quotient, with the 2024 value in \textbf{bold}. The two columns tell opposite stories, and both are reported for that reason: percentage-point gaps narrowed for five of the six partitions, while ratios rose for five of the six. Only the elderly partition converges on both measures, inverting from 1.02 to 0.96. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab4b}
+\end{table}
+
+\FloatBarrier
+
+\begin{figure}[hp]
+    \centering
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/H_2024.jpeg}} 
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/A_2024.jpeg}} \\
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/ictpc_2024.jpeg}} 
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/delta_H.jpeg}} \\
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/delta_A.jpeg}} 
+    \subfigure[]
+    {\includegraphics[width=0.49\textwidth]{EECC/figures/gg_ictpc.jpeg}} 
+    \caption{
+    \scriptsize
+    MEPI and income maps. (a) Incidence ($H$), 2024, \%; (b) Intensity ($A$), 2024, \%; (c) ICTPC, 2024, monthly pesos per capita at August 2024 prices; (d) $\Delta H$, in percentage points (2016--2024); (e) $\Delta A$, in percentage points (2016--2024); (f) Real growth rate of ICTPC, \% (2016--2024, prices deflated to August 2024). The maps are illustrative; the underlying estimates for all 32 federal entities are reported in Table~\ref{tab:states}. Prepared by the author with data from \textcite{temp_inegi, geo_inegi, enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.}
+    \label{fig:result_maps}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\caption{Headline Indices at the Union-End Cutoff ($k=0.10$) and at $k=0.30$, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X rrrrr rr}
+\toprule
+\toprule
+ & & 2016 & 2018 & 2020 & 2022 & 2024 & $\Delta$ (pp) & $\Delta$ (rel.\ \%) \\ \midrule
+\multicolumn{9}{l}{\textit{Panel A: $k=0.10$ (headline; union over Tier-1 and Tier-2 dimensions)}} \\[2pt]
+$H$   & & 30.234 & 29.882 & 27.255 & 26.415 & 22.639 & $-$7.595 & $-$25.1 \\
+$A$   & & 32.205 & 32.646 & 31.356 & 31.082 & 30.479 & $-$1.726 & $-$5.4 \\
+$M_0$ & & 9.737  & 9.755  & 8.546  & 8.210  & 6.900  & $-$2.837 & $-$29.1 \\[4pt]
+\multicolumn{9}{l}{\textit{Panel B: $k=0.30$ (cutoff used by \textcite{nussbaumer2012})}} \\[2pt]
+$H$   & & 13.083 & 13.020 & 11.188 & 10.713 & 8.812  & $-$4.271 & $-$32.6 \\
+$A$   & & 49.749 & 50.408 & 49.314 & 49.233 & 49.554 & $-$0.195 & $-$0.4 \\
+$M_0$ & & 6.508  & 6.563  & 5.517  & 5.274  & 4.367  & $-$2.141 & $-$32.9 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%, NB-main weights, ENIGH stratified-clustered design. Panel A is the headline specification used throughout the paper; at $k=0.10$ identification is operationally a union criterion over the six Tier-1 and Tier-2 dimensions (Section~\ref{data}). Panel B raises the cutoff to the value used by \textcite{nussbaumer2012}, which requires a household to accumulate roughly two Tier-1 deprivations, or one Tier-1 plus two Tier-2 deprivations, before being identified as energy poor. Incidence falls by more than half in levels, and intensity rises to about 50\% as expected when the identified population is restricted to the more deeply deprived, but the direction and magnitude of the \emph{trend} are, if anything, stronger at the higher cutoff ($-$32.9\% against $-$29.1\% in $M_0$). The headline conclusion is therefore not an artefact of the union-end cutoff. The full $k\in[0.10,0.30]$ trajectory under all four weighting schemes appears in Figure~\ref{fig:ksens}. Panel A reproduces Tables~\ref{tab3} and \ref{tab:delta} exactly, since $k=0.10$ is the headline specification; both are drawn from the same estimation object so that the two tables cannot drift apart. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:ksens_headline}
+\end{table}
+
+\FloatBarrier
+
+\subsection{Indicator validity: entertainment and water heating}\label{sec:indicator}
+
+Two of the eight indicators warrant closer scrutiny, because in each case the achievement rule may be measuring something other than what it names.
+
+\textbf{Entertainment.} Et is the only dimension whose deprivation rate rises over the period (3.92\% to 5.59\%, $+$42.8\% in relative terms), and its share of $M_0$ nearly doubles, from 4.79\% to 9.62\%---the largest compositional shift in the index. The achievement rule requires a television, a radio, or a computer \emph{with} internet access. Over 2016--2024 the Mexican household technology bundle changed in a way that this rule does not track: household internet access roughly doubled (37.0\% to 73.2\%) and cellphone ownership rose from 85.7\% to 96.4\%, while the share of households owning a computer with internet \emph{fell} from 23.9\% to 10.7\% as smartphones displaced computers, and television ownership drifted down from 94.8\% to 91.5\%. The consequence is visible directly in the deprived population: among households classified as Et-deprived, the share that nevertheless has both a cellphone and a home internet connection rose from 4.5\% in 2016 to 37.2\% in 2024 (Table~\ref{tab:et_diag}). By 2024, in other words, more than a third of the households the index calls entertainment-deprived have exactly the connectivity the dimension is meant to capture; they simply do not own a television, a radio, or a desktop computer.
+
+The natural test is to extend the achievement rule to include a smartphone-plus-internet route. Doing so reverses the sign of the trend: Et deprivation then falls from 3.74\% in 2016 to 3.51\% in 2024, rather than rising from 3.92\% to 5.59\%. We conclude that the rise in Et deprivation is an artefact of an indicator specified before smartphones became the dominant access device, not a deterioration in access to entertainment or information. We retain the original rule in the headline index for comparability with \textcite{nussbaumer2012} and with the earlier Mexican literature, but the appropriate reading of the Et row of Table~\ref{tab3} is as a measure of legacy-device ownership. Appendix Table~\ref{tab:et_drop} reports the index with Et removed entirely and the remaining seven dimensions renormalized in a $(3,2,2)$ configuration at the same tier ratio: the headline reduction in $M_0$ \emph{strengthens} from 29.1\% to 33.1\%, because Et is the only dimension pulling in the opposite direction. Note that the \emph{level} of $M_0$ rises when Et is dropped (10.46\% against 9.74\% in 2016), which is the expected consequence of redistributing Et's weight onto dimensions with higher deprivation rates; it is the trajectory, not the level, that the exercise is designed to test.
+
+\textbf{Water heating.} Wt achievement is satisfied by a solar heater, a gas heater, \emph{or} the ownership of at least one stove ($st \geq 1$), the last following the MAEN convention of \textcite{garciaochoa2016}. Because stove ownership is close to universal among households that also cook with modern fuels, this route induces substantial overlap with the cooking dimension. The tetrachoric correlation between Wt and Ck deprivation is 0.83 in 2016 and 0.86 in 2024, and 6.35 of the 9.74 percentage points of Wt deprivation in 2016 are accounted for by households that are also Ck-deprived. In the other direction, 51.7\% of households achieving Wt in 2016 do so \emph{only} via the stove route, with no water heater of any kind---a figure that falls to 44.1\% by 2024 as water-heater ownership spreads. Wt carries a Tier-1 weight and is the second largest contributor to $M_0$ in 2024 (19.4\%), so this is not a marginal issue. We retain the MAEN convention because stoves are able to heat water, the alternative would understate deprivation in households that heat water on the hob, but the reader should interpret Ck and Wt as two partially overlapping readings of the same underlying fuel-and-appliance constraint instead of independent dimensions.
+
+\begin{table}[htb]
+\centering
+\caption{Indicator Diagnostics: Entertainment Substitution and Water-Heating Overlap, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X rrrrr}
+\toprule
+\toprule
+ & & 2016 & 2018 & 2020 & 2022 & 2024 \\ \midrule
+\multicolumn{7}{l}{\textit{Panel A: Entertainment (Et)}} \\[2pt]
+Et deprivation rate (baseline rule)        & & 3.92 & 4.91 & 4.51 & 6.11 & 5.59 \\
+Et deprivation rate (smartphone route added) & & 3.74 & 4.52 & 3.91 & 4.79 & 3.51 \\
+\addlinespace
+Households with television                 & & 94.84 & 93.51 & 93.68 & 91.87 & 91.54 \\
+Households with computer \emph{and} internet & & 23.90 & 23.04 & 30.15 & 29.11 & 10.70 \\
+Households with home internet              & & 37.02 & 41.55 & 56.29 & 63.30 & 73.18 \\
+Households with cellphone                  & & 85.73 & 88.41 & 92.51 & 94.26 & 96.43 \\
+\addlinespace
+Of the Et-deprived: share with cellphone    & & 61.98 & 64.85 & 73.55 & 81.22 & 85.82 \\
+Of the Et-deprived: share with cellphone \emph{and} internet & & 4.49 & 8.08 & 13.33 & 21.57 & 37.19 \\[4pt]
+\multicolumn{7}{l}{\textit{Panel B: Water heating (Wt) and cooking (Ck)}} \\[2pt]
+Wt deprivation rate                        & & 9.74 & 9.75 & 8.49 & 8.49 & 7.34 \\
+Ck deprivation rate                        & & 11.64 & 12.59 & 11.70 & 11.31 & 9.70 \\
+Deprived in \emph{both} Wt and Ck          & & 6.35 & 6.78 & 6.02 & 5.90 & 5.14 \\
+Tetrachoric correlation (Wt, Ck)           & & 0.827 & 0.840 & 0.845 & 0.844 & 0.860 \\
+Of Wt achievers: share qualifying via stove only & & 51.67 & 50.51 & 48.57 & 48.20 & 44.08 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%, ENIGH-weighted, except the tetrachoric correlation. Panel A: the baseline Et achievement rule is $tv \geq 1 \lor rd \geq 1 \lor (cp \geq 1 \land ic=1)$ (Table~\ref{tab2}); the alternative rule adds the route $(cl = 1 \land ic = 1)$, i.e.\ a cellphone together with a home internet connection. Panel B: the tetrachoric correlation is computed on the weighted $2\times2$ table of Wt and Ck deprivation and estimates the correlation of the latent continuous variables underlying the two binary indicators. ``Via stove only'' means $st \geq 1$ with $sh = gh = 0$. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:et_diag}
+\end{table}
+
+\FloatBarrier
+
+\section{Discussion and Conclusions} \label{conclu}
+
+Our MEPI measure suggests that energy poverty in Mexico has declined substantially (Tables \ref{tab3} and \ref{tab3_1}), with noticeable shifts in the composition of $M_0$ (see Figure \ref{fig:dim} and Table \ref{tab:dim_contributions}) and structurally persistent socioeconomic and spatial inequalities (see Table \ref{tab4}, and Figures \ref{fig:result_maps} and \ref{fig:MEPIcen_plots}). We report a headline 29.1\% relative reduction in $M_0$. The estimate is stable in the following sense: the relative reduction ranges from 28.2\% to 31.4\% across the four weighting schemes considered---exogenous (Nussbaumer-style three-tier and equal weights) and data-driven (MCA on the pooled cross-sections, frequency-based)---from 28.5\% to 29.2\% across the four climate-zone classifications, and reaches 32.9\% at the higher cutoff $k=0.30$ (Tables \ref{tab:robustness}, \ref{tab:climate_HM} and \ref{tab:ksens_headline}, Figure \ref{fig:ksens}). What is \emph{not} invariant is the level: 2016 incidence ranges from 26.1\% to 61.8\% across weighting schemes, because the identification cutoff interacts with the weight spread. Trends in this index are considerably more trustworthy than levels, and we would caution against reading any single level estimate as \textit{the} rate of energy poverty in Mexico.
+
+We argue that the proposed three-tier design (see Table \ref{tab1}) directly addresses one of the strongest possible critiques of a MEPI-style index that includes an affordability dimension \emph{à la} \textcite{hills2011, hills2012}: by setting $w_{\mathrm{Af}} < k$, a household whose income falls below the line only after deducting energy expenditures cannot be classified as energy poor on the basis of that single fact; it must also be deprived in at least one further dimension. Two routes are possible. In the great majority of cases the additional deprivation is access-related, that is, Tier 1 or Tier 2. In the remainder the household crosses the cutoff through the \emph{joint} Tier-3 route, being deprived in both affordability and thermal comfort, neither of which reaches $k$ on its own ($0.0729 + 0.0729 = 0.1458 > k$). Table~\ref{tab:af_circ} quantifies this second route: it accounts for 13--17\% of the energy poor across waves, so for the remaining 83--87\% the classification is anchored by at least one access-related deprivation. Affordability accordingly contributes 17.3\% of $M_0$ in 2024, against 41.2\% under a two-tier counterfactual that places Af on the same footing as the appliance-based dimensions (Table~\ref{tab:twotier}). The three-tier design therefore does what it was intended to do, and it places the index closer to what one would expect from a measure concerned with access to modern energy services than from an expenditure-adjusted income poverty measure.
+
+One structural feature of that second route deserves emphasis, because it is not visible in the national figures and it strengthens the argument considerably. The joint Tier-3 route requires Tc to be \emph{available}, and Tc is available only in hot and cold municipalities. In temperate municipalities the availability matrix drops Tc, the weights renormalize to $w_{\mathrm{Af}} = 0.0786$ for affordability and $w \geq 0.1210$ for every other available dimension, and the smallest sum that can cross $k=0.10$ therefore always includes a Tier-1 or Tier-2 deprivation. For the 79.3\% of the population living in temperate municipalities, in other words, affordability \emph{cannot} affect the incidence $H$ at all: it enters the index purely as an intensity term, and the circularity objection has no purchase on identification whatsoever. The 13--17\% reported in Panel C of Table~\ref{tab:af_circ} is a national average over a population in which the mechanism it describes is structurally absent for four individuals in five. Conditioning on the hot and cold municipalities where the route actually exists, the Tier-3-only share of the energy poor is 33.4--39.0\% across waves (36.2\% in 2016, 36.1\% in 2024)---between two and three times the national figure---while in temperate municipalities it is identically zero, which the replication code asserts as a check on the argument rather than merely reporting. This locates precisely where the index is exposed to the Hills critique---in the climate-classified minority of municipalities, and there only---and where it is immune by construction.
+
+An analogous exercise addresses the climate-zone classification underlying the Tc dimension. Tables~\ref{tab:climate_pop} and \ref{tab:climate_HM} report population shares per zone and headline indices ($H$, $M_0$) under four alternative classifications: a $\pm 2^{\circ}$C shift of the baseline thresholds (Restrictive and Permissive), and a fundamentally different rule based on peak monthly readings ($T_\text{max,warmest}\!\geq\!35$, $T_\text{min,coldest}\!\leq\!5$) rather than annual averages. The level of $M_0$ varies by roughly a factor of 1.3 across variants (9.1\% under Restrictive to 11.8\% under Monthly-extreme in 2016), so the index is not invariant to the classification choice. However, the relative trajectory---a quasi-monotonic decrease in $M_0$ between 2016 and 2024, ranging from 28.5\% to 29.2\%---holds across all four temperature rules. It is worth stating the comparison explicitly, since it runs against intuition: the classification of climate zones is a \emph{more} robust margin for this index than the choice of weights, whose corresponding range is 28.2\% to 31.4\%.
+
+To probe the residual concern that Af may still amount to a relabeling of CONEVAL's income poverty line, Tables \ref{tab:af_drop} and \ref{tab:af_circ} report two complementary diagnostics. First, the headline relative reduction in $M_0$ holds---27.6\% rather than 29.1\%---when Af is dropped from the index entirely and weights are renormalized over the remaining seven dimensions; the trajectory is robust to Af's inclusion. Second, the overlap with income poverty must be stated carefully, because the answer depends on which conditioning event is used. Conditioning on CONEVAL's \emph{income} poverty line---the line that actually defines the Af cutoff---every income-poor household is mechanically also Af-deprived, and the Af indicator additionally fires for 3.1--5.3\% of households whose income clears that line. Conditioning instead on CONEVAL's \emph{multidimensional} poverty classification, which requires both low income and at least one social deprivation and is therefore a strictly smaller set, Af fires for 11.1--20.2\% of the non-poor. The first pair of figures is the relevant one for the circularity question, and it is the more demanding: on the correct conditioning event, Af identifies an additional but modest group of households, those whose income clears the poverty line until energy expenditures are netted out.
+
+We state the sharpest form of the objection explicitly rather than leave it to be inferred. Reading the same relationship in the other direction, the share of the Af-deprived population that is \emph{also} income-poor is $P(\text{income-poor} \mid \text{Af deprived}) = 95.8\%$ in 2016 and $94.6\%$ in 2024, falling in the 94.6--95.8\% band in every wave. Roughly nineteen out of twenty individuals flagged as affordability-deprived would have been flagged by the income poverty line alone. As a \emph{population}, therefore, Af is very nearly a relabeling of income poverty, and no defense of the indicator should claim otherwise.
+
+What prevents this from contaminating the index is not the informational content of Af but its position in the weight structure. Because $w_{\mathrm{Af}} < k$, the near-coincidence of the two populations has no effect on identification except through the joint Tier-3 route, which is confined to hot and cold municipalities and accounts for 13--17\% of the energy poor nationally; and because Af carries a Tier-3 weight, its contribution to $M_0$ is 17.3\% in 2024 rather than the 41.2\% it would command on an equal footing. The defense is thus architectural rather than empirical: we do not claim that Af measures something orthogonal to income poverty---it demonstrably does not---but that the index is constructed so that a dimension of this kind can register energy stress in intensity without being able to declare a household energy poor by itself. Taken with Table~\ref{tab:af_drop}, which shows the headline trajectory surviving Af's outright removal at 27.6\% against 29.1\%, we conclude that Af is neither the engine of the headline trend nor a channel through which income poverty is silently recounted as energy poverty.
+
+\subsection{Policy implications}
+
+Three results carry reasonably direct policy content. First, the improvement in affordability---the largest single absolute movement in the index, at $-$15.65pp---coincides with the doubling of the real federal minimum wage over 2018--2024, and the centile regression shows incidence falling roughly 14.8pp faster at the bottom of the income distribution than at the top. Income policy appears to have been an effective energy poverty instrument in this period, which is not the channel that access-oriented energy programmes typically target. Second, the near-elimination of communication deprivation ($-$71.9\% in relative terms) alongside persistent cooking and water-heating deprivation (25.5\% and 19.4\% of $M_0$ in 2024) indicates that the remaining binding constraints are thermal and fuel-related rather than informational; clean-cooking and water-heating programmes are where the residual mass of $M_0$ now sits. Third, and least comfortably, every relative gap in Table~\ref{tab4b} widened. The indigenous population is the clearest case, worsening in both percentage points and ratio, and reaching an incidence of 74.7\% in 2024 against a national 22.6\%. Aggregate progress of the kind documented here is fully compatible with a widening of relative disadvantage, and targeting on aggregate national trends will not reach these populations.
+
+\subsection{Limitations}
+
+Several limitations bound what can be concluded from these estimates. (\textit{i}) The design is a repeated cross-section, so nothing here identifies household-level dynamics: we observe the distribution of energy poverty changing, not households entering and leaving it. (\textit{ii}) Five of the eight dimensions rest on appliance ownership, which is not the same as effective energy service: a refrigerator on an unreliable connection counts as an achievement, and Section~\ref{sec:indicator} shows the entertainment indicator failing precisely because ownership of a legacy device stopped tracking the service it proxied. ENIGH does not support a usage- or reliability-conditioned alternative for most dimensions. (\textit{iii}) We observe expenditure, not consumption. Households that self-collect biomass---disproportionately the rural and indigenous households with the highest deprivation rates---incur real costs in time and health that never enter $ee$, so the affordability indicator understates their burden while the cooking indicator counts their fuel as a deprivation. (\textit{iv}) Mexican residential electricity tariffs are heavily cross-subsidized through the CFE's climate- and consumption-block-dependent tariff structure. ENIGH captures out-of-pocket expenditure only, so measured affordability gains partly reflect the subsidy regime rather than underlying cost, and changes in that regime over 2018--2024 are not separable from real-wage effects in our data. This is a confound for the affordability narrative and we cannot resolve it here. (\textit{v}) The climate classification is static and rests on a station network ending in 2012, so it cannot capture warming within the analysis window; Tables~\ref{tab:climate_pop} and \ref{tab:climate_HM} bound the consequences but do not remove them. (\textit{vi}) The 2020 wave was fielded under COVID-19 conditions, and we treat it as the least reliable point in the series.
+
+We identify four priorities for further work: (\textit{i}) a usage-conditioned reformulation of the appliance-based dimensions, should a suitable instrument become available; (\textit{ii}) an affordability specification using an energy-specific threshold, such as the twice-median expenditure-share rule, in place of the residual-income leg alone; (\textit{iii}) imputation of CFE tariff subsidies to separate affordability gains from subsidy-regime changes; and (\textit{iv}) a wave-by-wave stability analysis of the MCA loadings, which we estimate here on the pooled cross-sections.
+
+\subsection*{Data and code availability}
+
+The ENIGH microdata used in this paper are publicly available from INEGI \parencite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}, as are the temperature and geostatistical inputs \parencite{temp_inegi, temp_inegi2, geo_inegi} and the CONEVAL and INEGI poverty datasets \parencite{coneval_data, pm_inegi_2025}. The full replication package---the R pipeline that constructs the achievement matrix, estimates the index, and produces every table and figure in this paper---is available at \texttt{[repository URL]} and archived at \texttt{[Zenodo DOI]}. The raw microdata are not redistributed: the repository ships the scripts, the run order, and the recorded package versions, and the inputs are obtained directly from the sources cited above. Every numeric value appearing in this paper is emitted by \texttt{8\_extract\_for\_tex.R}, grouped by the table or figure that consumes it, so that the correspondence between code and text is machine-checkable.
+
+\subsection*{Funding}
+
+This work was carried out within the Erasmus Mundus Joint Master in Economic Policies for the Global Transition (EPOG-JM). \texttt{[Author: confirm the exact programme name and grant/agreement number, or state that no specific grant was received.]}
+
+\subsection*{Declaration of competing interests}
+
+The author declares no competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\subsection*{CRediT authorship contribution statement}
+
+\textbf{Matías Carrasco-Jiménez:} Conceptualization, Methodology, Software, Formal analysis, Data curation, Writing --- original draft, Writing --- review \& editing, Visualization.
+
+\subsection*{Acknowledgements}
+
+[To be completed.]
+
+\subsection*{Declaration of Artificial Intelligence (AI) use}
+
+Anthropic's Claude (Sonnet 5, Opus 5) family of large language models was used during the preparation of this paper. Following the distinction requested by journal AI-use policies between formatting assistance, assistance with author-written code, and code originated by the model, the use was as follows.
+
+\emph{(a) Presentation.} Generation of the \LaTeX{} scaffolding of tables and figures, including auto-population of estimated values from the author's R output into table cells, and prose copy-editing.
+
+\emph{(b) Debugging and refactoring of author-written code.} Diagnosis of errors in, and occasional refactoring of, R code drafted by the author, principally in the dataset-construction and estimation scripts.
+
+\emph{(c) Code originated by the model.} The auxiliary computations reported in Section~\ref{sec:indicator} and in the appendices---the entertainment and water-heating indicator diagnostics, the smartphone counterfactual, the two-tier and Af-conditioning diagnostics, the climate-zone and $k$-sensitivity variants, and the self-contained weighted-quantile and tetrachoric-correlation helpers---were drafted by the model to author specification and subsequently reviewed by the author.
+
+The substantive analytical decisions---choice of dimensions, deprivation cutoffs, weighting scheme, identification rule and survey design---were made by the author. All values auto-populated into tables were verified by the author against the original R output, and every number reported in this paper is reproducible from the deposited scripts (see \emph{Data and code availability}).
+
+\FloatBarrier 
+\newpage
+\appendix
+\section*{Appendix}
+\addcontentsline{toc}{section}{Appendix}
+% Reset counters
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+% Redefine numbering
+\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{figure}}
+
+\begin{figure}[htb]
+    \centering
+    \subfigure[]{\includegraphics[width=0.45\textwidth]{EECC/figures/H_cen.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.45\textwidth]{EECC/figures/A_cen.jpeg}}  \\
+    \subfigure[]{\includegraphics[width=0.45\textwidth]{EECC/figures/delta_H_cen.jpeg}}
+    \subfigure[]
+    {\includegraphics[width=0.45\textwidth]{EECC/figures/gg_ictpc_cen.jpeg}}  
+    \caption{
+    \scriptsize
+    ICTPC centiles (2016--2024). All variables are deflated to August 2024. All means were computed using ENIGH's stratified clustered design, with primary sampling units, sample design stratum, and individual expansion factors. (a) $H$; (b) $A$; (c) $\Delta H$; (d) ICTPC growth rate. Unweighted Ordinary Least Squares over the 100 centile means were used for the trend lines (blue, dashed) in panels (c) and (d); shading is $\pm 1$ SE. For panel (c) the fitted slope is $0.148$pp per centile (SE $0.014$, $t = 10.47$, $p<0.001$, $R^2 = 0.53$, $n = 100$), reported in Section~\ref{results}. Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.}
+    \label{fig:MEPIcen_plots}
+\end{figure}
+
+\begin{table}[htb]
+\centering
+\caption{Multidimensional Energy Poverty Index: National Estimates (totals, millions of people), 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X cccccc}
+\toprule
+\toprule
+ & & 2016 & 2018 & 2020 & 2022 & 2024 & $\Delta$ \\ \midrule
+\multicolumn{7}{l}{\textit{MEP}} \\[2pt]
+& $\hat{q}$ & 36.505 & 36.989 & 34.517 & 34.032 & 29.465 & $-$7.040$^{***}$ \\
+& & {\footnotesize (0.526)} & {\footnotesize (0.506)} & {\footnotesize (0.515)} & {\footnotesize (0.496)} & {\footnotesize (0.466)} & {\footnotesize (0.703)} \\[4pt]
+\multicolumn{7}{l}{\textit{Dimensional deprivation}} \\[2pt]
+& Ea & 0.494 & 0.489 & 0.281 & 0.413 & 0.316 & $-$0.178$^{***}$ \\
+& & {\footnotesize (0.052)} & {\footnotesize (0.054)} & {\footnotesize (0.026)} & {\footnotesize (0.050)} & {\footnotesize (0.035)} & {\footnotesize (0.063)} \\[2pt]
+& Ck & 14.048 & 15.584 & 14.813 & 14.572 & 12.622 & $-$1.426$^{***}$ \\
+& & {\footnotesize (0.355)} & {\footnotesize (0.341)} & {\footnotesize (0.339)} & {\footnotesize (0.331)} & {\footnotesize (0.328)} & {\footnotesize (0.483)} \\[2pt]
+& Wt & 11.762 & 12.072 & 10.747 & 10.938 & 9.557 & $-$2.205$^{***}$ \\
+& & {\footnotesize (0.378)} & {\footnotesize (0.347)} & {\footnotesize (0.332)} & {\footnotesize (0.355)} & {\footnotesize (0.315)} & {\footnotesize (0.492)} \\[2pt]
+& Rf & 16.611 & 16.289 & 13.935 & 13.236 & 11.986 & $-$4.625$^{***}$ \\
+& & {\footnotesize (0.397)} & {\footnotesize (0.376)} & {\footnotesize (0.340)} & {\footnotesize (0.348)} & {\footnotesize (0.305)} & {\footnotesize (0.501)} \\[2pt]
+& Et & 4.730 & 6.082 & 5.712 & 7.874 & 7.280 & $+$2.550$^{***}$ \\
+& & {\footnotesize (0.168)} & {\footnotesize (0.185)} & {\footnotesize (0.163)} & {\footnotesize (0.197)} & {\footnotesize (0.187)} & {\footnotesize (0.251)} \\[2pt]
+& Cm & 11.103 & 9.753 & 6.210 & 5.008 & 3.361 & $-$7.742$^{***}$ \\
+& & {\footnotesize (0.301)} & {\footnotesize (0.249)} & {\footnotesize (0.185)} & {\footnotesize (0.165)} & {\footnotesize (0.118)} & {\footnotesize (0.323)} \\[2pt]
+& Tc & 15.466 & 16.249 & 16.263 & 15.909 & 13.504 & $-$1.962$^{**}$ \\
+& & {\footnotesize (0.617)} & {\footnotesize (0.720)} & {\footnotesize (0.631)} & {\footnotesize (0.598)} & {\footnotesize (0.563)} & {\footnotesize (0.836)} \\[2pt]
+& Af & 63.972 & 64.663 & 69.916 & 59.058 & 48.592 & $-$15.380$^{***}$ \\
+& & {\footnotesize (0.608)} & {\footnotesize (0.579)} & {\footnotesize (0.562)} & {\footnotesize (0.546)} & {\footnotesize (0.570)} & {\footnotesize (0.834)} \\[4pt]
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All estimates in millions of individuals, computed using ENIGH's stratified clustered design with individual expansion factors \parencite{inegi2023}. $\hat{q}$ denotes the survey-weighted estimate of the energy-poor population, the numerator of $H$ in equation (\ref{eq:H}); the remaining rows are the corresponding weighted counts of individuals deprived in each dimension. Thermal comfort (Tc) counts are computed over the hot/cold subpopulation only, which is why 13.50 million in 2024 corresponds to a rate of 50.58\% in Table~\ref{tab3} rather than to a national rate. Linearized standard errors in parentheses. $\Delta$ significance: $^{***}$\,$p<0.01$, $^{**}$\,$p<0.05$, $^{*}$\,$p<0.10$; $\mathrm{SE}(\Delta)=\sqrt{\widehat{\mathrm{SE}}_{2016}^2+\widehat{\mathrm{SE}}_{2024}^2}$ (cross-sectional independence). \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab3_1}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{MCA Diagnostics: Eigenvalues and Indicator Loadings on Axis 1}
+\small
+\begin{tabularx}{\textwidth}{l X rr}
+\toprule
+\toprule
+\multicolumn{4}{l}{\textit{Panel A: Eigenvalues}} \\[2pt]
+Axis & & Eigenvalue & \% Variance \\ \midrule
+1 & & 0.2916 & 29.16 \\
+2 & & 0.1374 & 13.74 \\
+3 & & 0.1219 & 12.19 \\
+4 & & 0.1066 & 10.66 \\
+5 & & 0.1053 & 10.53 \\
+\addlinespace
+\multicolumn{4}{l}{\textit{Panel B: Deprived modality loadings on Axis 1 and derived weights}} \\[2pt]
+Dimension & & Loading & $w_j$ \\ \midrule
+Ea & & 4.259 & 0.3110 \\
+Wt & & 2.021 & 0.1476 \\
+Cm & & 1.961 & 0.1432 \\
+Et & & 1.690 & 0.1234 \\
+Rf & & 1.568 & 0.1145 \\
+Ck & & 1.370 & 0.1001 \\
+Af & & 0.427 & 0.0312 \\
+Tc & & 0.399 & 0.0291 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} MCA estimated on the pooled 2016--2024 repeated cross-sections using individual expansion factors as row weights (normalized to sum to 1). Because the analysis requires all eight indicators to be simultaneously defined, and Tc is unavailable in temperate municipalities, the estimation pool is restricted to individuals in hot and cold municipalities---21.4\% of the pooled five-wave sample, ranging from 20.5\% in 2024 to 22.2\% in 2020. The same restriction applies to the frequency-based weights of Table~\ref{tab:robustness}, whose $\bar p_j$ are computed on this pool. This is a consequence of the availability structure rather than a choice, but it should be borne in mind when reading the two data-driven schemes: hot and cold municipalities are disproportionately southern, south-eastern and highland, and their deprivation rates exceed the national ones, so both schemes derive their weights from a more deprived subpopulation than the one to which they are subsequently applied. With $Q=8$ binary variables and $J=16$ modalities, total inertia is $(J-Q)/Q = 1$ and eight axes are available; the eigenvalues reported in Panel A sum to 1 by construction. Panel B reports the coordinate of the deprived modality ($=1$) for each indicator on Axis 1. Weights $w_j$ are derived by taking the absolute value of each loading and normalizing to sum to 1: $w_j = |l_j| / \sum_j |l_j|$.
+\smallskip
+
+\noindent \emph{On retaining a single axis.} The raw figure of 29.2\% of inertia on Axis 1 understates the axis's importance, because in MCA the raw percentages are deflated by the coding of the indicator matrix rather than by any property of the data \parencite{greenacre2006}. Applying the standard Benzécri correction---retaining only axes with $\lambda > 1/Q = 0.125$ and rescaling by $[Q/(Q-1)]^2(\lambda - 1/Q)^2$---leaves just two admissible axes, and Axis 1 accounts for 99.4\% of the adjusted inertia. Under Greenacre's more conservative adjustment, which rescales by the average off-diagonal inertia, Axis 1 accounts for 88.3\% against 0.5\% for Axis 2. On either correction the retention of one axis is well supported, and we report the raw eigenvalues in Panel A only for transparency.
+\smallskip
+
+\noindent \emph{A caveat on the loadings.} Electricity access (Ea) receives the largest MCA weight, 0.3110, despite being by far the rarest deprivation in the data (0.41\% in 2016, 0.24\% in 2024). This is the known rare-modality pathology of MCA on imbalanced binary data: infrequent modalities are located far from the centroid and therefore contribute disproportionately to inertia, irrespective of their substantive importance. The resulting weight spread of roughly 10:1 between Ea and Tc is the main reason the MCA scheme produces $M_0$ levels well below the other three (Table~\ref{tab:robustness}). We report MCA as one of four robustness schemes rather than as the main specification for precisely this reason. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:mca}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Delta Tests: Changes in MEP Incidence, Intensity and Dimensional Deprivation Rates, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X rrrrrrl}
+\toprule
+\toprule
+Variable & & 2016 & 2024 & $\Delta$ & SE($\Delta$) & $z$ & $p$-value & \\
+\midrule
+\multicolumn{9}{l}{\textit{Panel A: 2016--2024}} \\[2pt]
+$H$       & & 30.234 & 22.639 & $-$7.595 & 0.495 & $-$15.36 & $<$0.001 & $^{***}$ \\
+$M_0$     & & 9.737  & 6.900  & $-$2.837 & 0.213 & $-$13.30 & $<$0.001 & $^{***}$ \\
+$A$       & & 32.205 & 30.479 & $-$1.726 & 1.004 & $-$1.72  & 0.085    & $^{*}$  \\
+\addlinespace
+\multicolumn{9}{l}{\textit{Panel B: 2016--2018 (the uptick discussed in Section~\ref{results})}} \\[2pt]
+$H$       & & 30.234 & 29.882 & $-$0.352 & 0.522 & $-$0.67  & 0.500    &  \\
+$M_0$     & & 9.737  & 9.755  & $+$0.018 & 0.231 & $+$0.08  & 0.936    &  \\
+$A$       & & 32.205 & 32.645 & $+$0.441 & 0.953 & $+$0.46  & 0.644    &  \\
+\addlinespace
+\multicolumn{9}{l}{\textit{Panel C: dimensional deprivation rates, 2016--2024}} \\[2pt]
+Ea        & & 0.409  & 0.242  & $-$0.166 & 0.050 & $-$3.30  & $<$0.001 & $^{***}$ \\
+Ck        & & 11.635 & 9.698  & $-$1.936 & 0.375 & $-$5.16  & $<$0.001 & $^{***}$ \\
+Wt        & & 9.741  & 7.342  & $-$2.399 & 0.383 & $-$6.26  & $<$0.001 & $^{***}$ \\
+Rf        & & 13.758 & 9.209  & $-$4.549 & 0.378 & $-$12.02 & $<$0.001 & $^{***}$ \\
+Et        & & 3.918  & 5.593  & $+$1.676 & 0.196 & $+$8.55  & $<$0.001 & $^{***}$ \\
+Cm        & & 9.196  & 2.582  & $-$6.614 & 0.255 & $-$25.89 & $<$0.001 & $^{***}$ \\
+Tc        & & 61.746 & 50.577 & $-$11.169 & 1.481 & $-$7.54  & $<$0.001 & $^{***}$ \\
+Af        & & 52.983 & 37.333 & $-$15.650 & 0.504 & $-$31.08 & $<$0.001 & $^{***}$ \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in percentage points. Columns headed 2016 and 2024 report the two endpoints of the relevant comparison; in Panel B the second column is 2018. $\mathrm{SE}(\Delta)=\sqrt{\widehat{\mathrm{SE}}_{t_0}^2+\widehat{\mathrm{SE}}_{t_1}^2}$ under cross-sectional independence. $^{***}$\,$p<0.01$, $^{**}$\,$p<0.05$, $^{*}$\,$p<0.10$. Panel B formalizes the statement in Section~\ref{results} that the 2016--2018 movement is not distinguishable from zero: none of the three indices approaches conventional significance, and the point estimate for $M_0$ is $+0.018$pp against a standard error of 0.231pp. Note that ENIGH's published design does not include replicate weights for the new series, so all inference here is linearization-based; if replicate weights become available, the borderline result for $A$ in Panel A ($p=0.085$) is the one most likely to be affected. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:delta}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Affordability Sensitivity: NB Main vs NB Excluding the Af Dimension, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{c X rrr rrr}
+\toprule
+\toprule
+& & \multicolumn{3}{c}{NB main (Af in Tier 3)} & \multicolumn{3}{c}{NB-noAf (Af dropped)} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}
+Year & & $H$ & $M_0$ & $A$ & $H$ & $M_0$ & $A$ \\ \midrule
+2016 & & 30.234 & 9.737 & 32.205 & 26.129 & 8.203 & 31.393 \\
+2018 & & 29.882 & 9.755 & 32.646 & 25.975 & 8.293 & 31.925 \\
+2020 & & 27.255 & 8.546 & 31.356 & 22.566 & 7.058 & 31.276 \\
+2022 & & 26.415 & 8.210 & 31.082 & 22.399 & 6.959 & 31.066 \\
+2024 & & 22.639 & 6.900 & 30.479 & 19.505 & 5.936 & 30.436 \\ \midrule
+$\Delta$ (pp) & & $-$7.595 & $-$2.837 & $-$1.726 & $-$6.624 & $-$2.267 & $-$0.957 \\
+$\Delta$ (rel.\ \%) & & $-$25.1 & $-$29.1 & $-$5.4 & $-$25.4 & $-$27.6 & $-$3.0 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%. NB-noAf reweights Tier 1, Tier 2 and Tc under the same $w_1/w_2 = w_2/w_3 = 0.20/0.13$ ratio applied to the (3, 3, 1) configuration without affordability, yielding $w_1 \approx 0.1861$, $w_2 \approx 0.1210$ and $w_{\mathrm{Tc}} \approx 0.0786$ in hot/cold zones (and $w_1 \approx 0.2020$, $w_2 \approx 0.1313$ in temperate, where Tc is also dropped). Excluding Af reduces $M_0$ by $\sim 1.0$\,pp at every wave but leaves the relative trajectory essentially unchanged: the 27.6\% reduction without Af is close in magnitude to the 29.1\% headline figure with Af, indicating that the headline trend is not an artefact of the affordability indicator. We do not report a formal test of the 27.6\% versus 29.1\% difference: the two estimates are computed on the same sample and are strongly positively correlated, so a test treating them as independent would be invalid, and the substantive point---that dropping the most contested dimension moves the headline by roughly 1.5 percentage points of relative reduction---does not depend on one. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:af_drop}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Entertainment Sensitivity: NB Main vs NB Excluding the Et Dimension, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{c X rrr rrr}
+\toprule
+\toprule
+& & \multicolumn{3}{c}{NB main (eight dimensions)} & \multicolumn{3}{c}{NB-noEt (Et dropped)} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}
+Year & & $H$ & $M_0$ & $A$ & $H$ & $M_0$ & $A$ \\ \midrule
+2016 & & 30.234 & 9.737 & 32.205 & 29.177 & 10.456 & 35.836 \\
+     & &        &       &        & {\footnotesize (0.368)} & {\footnotesize (0.179)} & \\
+2018 & & 29.882 & 9.755 & 32.646 & 28.665 & 10.333 & 36.047 \\
+     & &        &       &        & {\footnotesize (0.371)} & {\footnotesize (0.174)} & \\
+2020 & & 27.255 & 8.546 & 31.356 & 25.995 & 9.011  & 34.665 \\
+     & &        &       &        & {\footnotesize (0.366)} & {\footnotesize (0.161)} & \\
+2022 & & 26.415 & 8.210 & 31.082 & 24.570 & 8.400  & 34.188 \\
+     & &        &       &        & {\footnotesize (0.350)} & {\footnotesize (0.161)} & \\
+2024 & & 22.639 & 6.900 & 30.479 & 20.692 & 6.995  & 33.806 \\
+     & &        &       &        & {\footnotesize (0.326)} & {\footnotesize (0.144)} & \\ \midrule
+$\Delta$ (pp) & & $-$7.595 & $-$2.837 & $-$1.726 & $-$8.485 & $-$3.461 & $-$2.030 \\
+$\Delta$ (rel.\ \%) & & $-$25.1 & $-$29.1 & $-$5.4 & $-$29.1 & $-$33.1 & $-$5.7 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%; linearized standard errors in parentheses under the NB-noEt estimates. NB-noEt drops entertainment and renormalizes the remaining seven dimensions in a $(3,2,2)$ configuration---Tier 1: Ea, Ck, Wt; Tier 2: Rf, Cm; Tier 3: Tc, Af---under the same adjacent-tier ratio $w_1/w_2 = w_2/w_3 = 0.20/0.13$, i.e.\ solving $3w_1 + 2w_2 + 2w_3 = 1$, which gives $w_1 \approx 0.1943$, $w_2 \approx 0.1263$ and $w_3 \approx 0.0821$ in hot and cold municipalities. In temperate municipalities Tc is additionally unavailable and the $(3,2,1)$ renormalization applies. Poverty cutoff $k=0.10$ throughout; Tier-3 weights remain below the cutoff, so the identification logic of the main scheme is preserved. Two features are worth noting. First, the \emph{level} of $M_0$ is higher without Et in every wave, because Et carries the lowest deprivation rate of the three Tier-2 dimensions and dropping it redistributes weight onto dimensions where deprivation is more common. Second, and the point of the exercise, the relative reduction over 2016--2024 \emph{strengthens} from 29.1\% to 33.1\%: entertainment is the only dimension whose deprivation rate rises over the period (Table~\ref{tab3}), so removing it removes the one component working against the headline trend. Read together with Section~\ref{sec:indicator}, which shows the Et rise to be an artefact of an achievement rule specified before smartphones displaced legacy devices, this establishes that the headline decline is not sustained by the entertainment indicator and is in fact understated by it. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:et_drop}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Affordability Indicator vs CONEVAL Income Poverty: Conditional Probabilities, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{X rrrrr}
+\toprule
+\toprule
+Conditioning event & 2016 & 2018 & 2020 & 2022 & 2024 \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel A: conditioning on the income line that defines the Af cutoff}} \\[2pt]
+$P(\text{Af deprived} \mid \text{income-poor})$ & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 \\
+$P(\text{Af deprived} \mid \text{not income-poor})$ & 4.51 & 4.74 & 5.26 & 4.13 & 3.09 \\
+\addlinespace
+\multicolumn{6}{l}{\textit{Panel B: conditioning on CONEVAL multidimensional poverty}} \\[2pt]
+$P(\text{Af deprived} \mid \text{multidimensionally poor})$ & 100.00 & 100.00 & 100.00 & 100.00 & 100.00 \\
+$P(\text{Af deprived} \mid \text{not multidim.\ poor})$ & 17.21 & 17.82 & 20.22 & 14.99 & 11.06 \\
+\addlinespace
+\multicolumn{6}{l}{\textit{Panel C: dependence of the energy-poor classification on Af}} \\[2pt]
+$P(\text{Tier-3-only} \mid \text{energy poor})$ & 13.58 & 13.07 & 17.20 & 15.20 & 13.85 \\
+\addlinespace
+\multicolumn{6}{l}{\textit{Memorandum: poverty rates}} \\[2pt]
+Income poverty rate & 50.76 & 49.86 & 52.72 & 43.51 & 35.33 \\
+Multidimensional poverty rate & 43.21 & 41.88 & 43.86 & 36.29 & 29.53 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%, weighted by ENIGH expansion factors. Two distinct conditioning events are reported, and they are not interchangeable. \emph{Income-poor} is CONEVAL's \textit{población con ingreso inferior a la línea de pobreza por ingresos}---per-capita income below the LPI---which is the same line that defines the Af deprivation cutoff, and is therefore the relevant event for assessing circularity. \emph{Multidimensionally nonpoor} refers to CONEVAL's full multidimensional classification, which requires income below the LPI \emph{and} at least one social deprivation; it is a strictly smaller poor set, so its complement is larger and mechanically yields a higher conditional probability. Columns 1--3 quantify how much information Af carries beyond income poverty. Every income-poor household is also Af-deprived: the 100\% column is a mechanical consequence of the residual-income leg of LIHC firing whenever income already falls below the line, so netting out energy expenditure cannot reverse it. Among households whose income clears the line, Af nonetheless fires for 3.1--5.3\%---true energy-stress cases in which residual income after energy expenditures does not clear the line. The corresponding figure against the multidimensional classification, 11.1--20.2\%, is larger but answers a different question and should not be used to defend the indicator. The final column reports the share of NB-classified energy poor whose only crossings of the deprivation cutoff arise via joint Tier-3 deprivation (Af paired with Tc) without any Tier-1 or Tier-2 deprivation; this is the population whose energy-poverty status \emph{depends} on Af being in the index, and it amounts to 13--17\% across waves. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:af_circ}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Climate-Zone Sensitivity: Population Shares by Zone under Alternative Classifications, 2016--2024}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l ccc ccc ccc ccc ccc}
+\toprule
+\toprule
+& \multicolumn{3}{c}{2016} & \multicolumn{3}{c}{2018} & \multicolumn{3}{c}{2020} & \multicolumn{3}{c}{2022} & \multicolumn{3}{c}{2024} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13} \cmidrule(lr){14-16}
+Variant & Hot & Temp.\ & Cold & Hot & Temp.\ & Cold & Hot & Temp.\ & Cold & Hot & Temp.\ & Cold & Hot & Temp.\ & Cold \\ \midrule
+Restrictive ($+2^{\circ}$C)   & 3.62  & 95.34 & 1.04  & 3.74  & 95.08 & 1.19  & 3.66  & 94.82 & 1.53  & 3.63  & 94.97 & 1.40  & 3.18  & 95.76 & 1.06 \\
+\textbf{Baseline}             & 15.89 & 79.25 & 4.86  & 16.28 & 78.57 & 5.15  & 16.31 & 77.80 & 5.89  & 15.94 & 77.88 & 6.17  & 15.09 & 79.49 & 5.42 \\
+Permissive ($-2^{\circ}$C)    & 28.05 & 55.89 & 16.06 & 28.05 & 56.16 & 15.79 & 28.19 & 55.02 & 16.79 & 28.52 & 55.27 & 16.21 & 27.09 & 55.16 & 17.75 \\
+Monthly-extreme               & 20.11 & 43.43 & 36.45 & 19.66 & 43.62 & 36.71 & 20.02 & 42.36 & 37.62 & 20.45 & 43.69 & 35.86 & 19.99 & 43.11 & 36.90 \\
+\bottomrule
+\end{tabular}}
+\begin{justify}
+\scriptsize
+\textbf{Note:} Population shares (\%, ENIGH-weighted) by climate zone under each classification. \emph{Baseline} is the definitive main-text rule stated in equation (\ref{eq:climate}) of Section~\ref{data}: $T_\text{max,ann}\!\geq\!30^{\circ}$C $\wedge$ $\bar T\!\geq\!24^{\circ}$C (hot); $T_\text{min,ann}\!\leq\!10^{\circ}$C $\wedge$ $\bar T\!\leq\!12^{\circ}$C (cold); temperate otherwise. \emph{Restrictive} shifts both bounds by $+2^{\circ}$C; \emph{Permissive} by $-2^{\circ}$C. \emph{Monthly-extreme} uses peak monthly readings instead of annual averages: $T_\text{max,warmest}\!\geq\!35^{\circ}$C (hot), $T_\text{min,coldest}\!\leq\!5^{\circ}$C (cold). The classification is a fixed property of each municipality and does not vary by wave; the small movements across columns reflect changes in the geographic distribution of the ENIGH sample, not reclassification. \textbf{Source:} Author's calculations using INEGI weather-station data \parencite{temp_inegi, temp_inegi2} and \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:climate_pop}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Climate-Zone Sensitivity: $H$ and $M_0$ under Alternative Classifications, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{l X rr rr rr rr rr}
+\toprule
+\toprule
+& & \multicolumn{2}{c}{2016} & \multicolumn{2}{c}{2018} & \multicolumn{2}{c}{2020} & \multicolumn{2}{c}{2022} & \multicolumn{2}{c}{2024} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8} \cmidrule(lr){9-10} \cmidrule(lr){11-12}
+Variant & & $H$ & $M_0$ & $H$ & $M_0$ & $H$ & $M_0$ & $H$ & $M_0$ & $H$ & $M_0$ \\ \midrule
+Restrictive ($+2^{\circ}$C)        & & 26.86 & 9.07  & 26.67 & 9.11  & 23.61 & 7.86  & 23.25 & 7.61  & 20.16 & 6.43  \\
+\textbf{Baseline}                  & & 30.23 & 9.74  & 29.88 & 9.76  & 27.26 & 8.55  & 26.42 & 8.21  & 22.64 & 6.90  \\
+Permissive ($-2^{\circ}$C)         & & 36.14 & 10.85 & 35.19 & 10.76 & 34.05 & 9.73  & 31.60 & 9.15  & 27.42 & 7.76  \\
+Monthly-extreme                    & & 42.62 & 11.84 & 41.88 & 11.76 & 41.34 & 10.79 & 37.19 & 9.97  & 31.54 & 8.39  \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%. Estimated under NB-main weights with $k=0.10$, ENIGH stratified-clustered design. Zone assignment follows equation (\ref{eq:climate}) for the Baseline; the three variants are defined in the note to Table~\ref{tab:climate_pop}. The relative reduction in $M_0$ is essentially invariant across the four classifications ($-28.5$ to $-29.2$\%) despite the level of $M_0$ varying by a factor of $\sim\!1.3$ in 2016 (9.07\% under Restrictive vs.\ 11.84\% under Monthly-extreme). The small 2016--2018 uptick in $M_0$ documented in the main text (Section~\ref{results}) is \emph{not} robust to the classification: it appears under Restrictive ($9.07 \to 9.11$) and Baseline ($9.74 \to 9.76$) but reverses under Permissive ($10.85 \to 10.76$) and Monthly-extreme ($11.84 \to 11.76$). Since the movement is in any case statistically indistinguishable from zero under the baseline ($z=0.08$, $p=0.936$), its sensitivity to the zone definition reinforces the reading that it is noise rather than a reversal. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:climate_HM}
+\end{table}
+
+\begin{table}[htb]
+\centering
+\caption{Two-Tier Counterfactual: Affordability on an Equal Footing with the Appliance Dimensions, 2016--2024}
+\small
+\begin{tabularx}{\textwidth}{c X rrr rrr}
+\toprule
+\toprule
+& & \multicolumn{3}{c}{NB main (three tiers, Af in Tier 3)} & \multicolumn{3}{c}{Two-tier counterfactual} \\
+\cmidrule(lr){3-5} \cmidrule(lr){6-8}
+Year & & $H$ & $M_0$ & $\delta^{(r)}_{\mathrm{Af}}$ & $H$ & $M_0$ & $\delta^{(r)}_{\mathrm{Af}}$ \\ \midrule
+2016 & & 30.234 & 9.737 & 19.16 & 61.762 & 14.139 & 42.48 \\
+2018 & & 29.882 & 9.755 & 18.60 & 61.412 & 14.130 & 41.87 \\
+2020 & & 27.255 & 8.546 & 19.74 & 62.936 & 13.386 & 46.63 \\
+2022 & & 26.415 & 8.210 & 18.18 & 55.933 & 12.222 & 42.40 \\
+2024 & & 22.639 & 6.900 & 17.27 & 47.893 & 10.262 & 41.20 \\
+\bottomrule
+\end{tabularx}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%, $k=0.10$, ENIGH stratified-clustered design. The two-tier counterfactual collapses Tiers 2 and 3 of the main scheme, placing affordability and thermal comfort on the same footing as refrigeration, entertainment and communication. Retaining the same adjacent-tier ratio $w_1/w_2 = 0.20/0.13$ over the resulting $(3,5)$ configuration---i.e.\ solving $3w_1 + 5w_2 = 1$---gives $w_1 = 0.1600$ and $w_2 = 0.1040$ in hot and cold municipalities, and $w_1 = 0.1786$, $w_2 = 0.1161$ in temperate municipalities under the $(3,4)$ configuration. $\delta^{(r)}_{\mathrm{Af}}$ is the relative contribution of affordability to $M_0$, as defined in equation (\ref{eq:deltarel}).
+\smallskip
+
+\noindent This is the comparison referred to in Section~\ref{conclu}. Because every weight in the two-tier scheme exceeds $k=0.10$, affordability---with a deprivation rate above 50\% in the early waves---identifies households on its own, and its share of $M_0$ rises from 17.3\% to 41.2\% in 2024. Incidence more than doubles, to 47.9\% in 2024, and coincides with the equal-weights column of Table~\ref{tab:robustness}, since both schemes place all eight dimensions above the cutoff and therefore share an identification set. The agreement is exact, to three decimals, in all five waves. This is a check rather than a coincidence: the two computations run through different code paths---the equal-weights column comes from the survey estimation in \texttt{3\_estimations.R}, the counterfactual from an independent matrix calculation in \texttt{7\_diagnostics.R}---and they agree only if both treat missing indicator values the same way. Earlier drafts reported a residual of 0.001--0.004pp in 2018 and 2024, which arose because the counterfactual imputed missing indicators as achievements while the main pipeline excluded them pairwise; the counterfactual now drops exactly the rows the main pipeline drops, and the discrepancy is gone. The exercise makes concrete what the three-tier design buys: without it, the index would be reporting a measure in which affordability, rather than access to energy services, is the single dominant component. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:twotier}
+\end{table}
+
+\begin{sidewaystable}[htb]
+\centering
+\caption{Multidimensional Energy Poverty by Federal Entity, 2016 and 2024}
+\scriptsize
+\begin{tabular}{l rr rr rr r @{\hskip 2em} l rr rr rr r}
+\toprule
+\toprule
+ & \multicolumn{2}{c}{$H$} & \multicolumn{2}{c}{$A$} & \multicolumn{2}{c}{$M_0$} & & & \multicolumn{2}{c}{$H$} & \multicolumn{2}{c}{$A$} & \multicolumn{2}{c}{$M_0$} & \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){10-11} \cmidrule(lr){12-13} \cmidrule(lr){14-15}
+Entity & 2016 & 2024 & 2016 & 2024 & 2016 & 2024 & $\Delta H$ & Entity & 2016 & 2024 & 2016 & 2024 & 2016 & 2024 & $\Delta H$ \\ \midrule
+Chiapas         & 72.76 & 64.46 & 43.75 & 43.12 & 31.84 & 27.79 & $-$8.30  & Michoacán           & 32.45 & 21.17 & 31.18 & 27.99 & 10.12 & 5.92 & $-$11.28 \\
+Guerrero        & 63.44 & 57.19 & 39.80 & 37.23 & 25.25 & 21.30 & $-$6.25  & San Luis Potosí     & 30.76 & 21.01 & 35.07 & 33.77 & 10.79 & 7.10 & $-$9.75 \\
+Oaxaca          & 66.17 & 55.04 & 42.20 & 38.99 & 27.92 & 21.46 & $-$11.12 & Nayarit             & 28.47 & 19.18 & 35.96 & 32.11 & 10.24 & 6.16 & $-$9.29 \\
+Campeche        & 47.31 & 43.13 & 33.75 & 32.60 & 15.97 & 14.06 & $-$4.18  & Colima              & 29.76 & 17.83 & 23.25 & 21.71 & 6.92 & 3.87 & $-$11.93 \\
+Tabasco         & 55.80 & 41.23 & 31.81 & 29.00 & 17.75 & 11.96 & $-$14.57 & \textbf{Durango}    & 12.20 & \textbf{14.31} & 23.79 & \textbf{29.50} & 2.90 & \textbf{4.22} & \textbf{$+$2.10} \\
+Yucatán         & 53.20 & 38.58 & 36.01 & 34.51 & 19.16 & 13.32 & $-$14.62 & Baja California Sur & 14.36 & 12.87 & 25.28 & 21.56 & 3.63 & 2.77 & $-$1.49 \\
+Veracruz        & 50.38 & 37.14 & 37.40 & 33.10 & 18.84 & 12.29 & $-$13.24 & Ciudad de México    & 14.00 & 12.08 & 20.65 & 18.97 & 2.89 & 2.29 & $-$1.91 \\
+Puebla          & 41.94 & 33.00 & 30.96 & 30.21 & 12.98 & 9.97  & $-$8.94  & Guanajuato          & 21.37 & 12.00 & 26.01 & 21.65 & 5.56 & 2.60 & $-$9.37 \\
+Tlaxcala        & 40.69 & 27.44 & 23.82 & 21.15 & 9.69  & 5.80  & $-$13.25 & Sonora              & 12.63 & 11.18 & 29.38 & 25.77 & 3.71 & 2.88 & $-$1.45 \\
+Hidalgo         & 43.20 & 26.31 & 36.25 & 33.12 & 15.66 & 8.71  & $-$16.89 & Querétaro           & 20.06 & 10.76 & 27.65 & 24.07 & 5.55 & 2.59 & $-$9.29 \\
+Morelos         & 31.42 & 24.96 & 25.97 & 23.87 & 8.16  & 5.96  & $-$6.46  & Tamaulipas          & 14.47 & 9.89  & 25.87 & 22.44 & 3.74 & 2.22 & $-$4.58 \\
+Quintana Roo    & 37.40 & 24.33 & 30.19 & 28.62 & 11.29 & 6.97  & $-$13.07 & Sinaloa             & 16.51 & 9.81  & 28.90 & 23.61 & 4.77 & 2.32 & $-$6.69 \\
+México          & 30.18 & 22.94 & 23.60 & 20.95 & 7.12  & 4.81  & $-$7.24  & Zacatecas           & 19.79 & 9.31  & 22.70 & 21.21 & 4.49 & 1.97 & $-$10.48 \\
+                &       &       &       &       &       &       &          & \textbf{Chihuahua}  & 14.33 & 8.87  & 26.57 & \textbf{27.55} & 3.81 & 2.45 & $-$5.45 \\
+                &       &       &       &       &       &       &          & Jalisco             & 11.38 & 6.89  & 21.93 & 20.10 & 2.50 & 1.39 & $-$4.49 \\
+                &       &       &       &       &       &       &          & Aguascalientes      & 11.83 & 6.38  & 22.58 & 20.31 & 2.67 & 1.30 & $-$5.45 \\
+                &       &       &       &       &       &       &          & Baja California     & 8.17  & 5.51  & 21.18 & 18.53 & 1.73 & 1.02 & $-$2.66 \\
+                &       &       &       &       &       &       &          & Nuevo León          & 7.75  & 5.42  & 22.38 & 20.73 & 1.73 & 1.12 & $-$2.33 \\
+                &       &       &       &       &       &       &          & Coahuila            & 13.65 & 4.59  & 21.49 & 20.04 & 2.93 & 0.92 & $-$9.06 \\
+\bottomrule
+\end{tabular}
+\begin{justify}
+\scriptsize
+\textbf{Note:} All values in \%, NB-main weights with $k=0.10$, ENIGH stratified-clustered design. Entities are ordered by 2024 incidence, continuing in the right-hand block. This table reports the estimates underlying the maps in Figure~\ref{fig:result_maps}, which are illustrative rather than evidentiary. \textbf{Durango} is the only entity in which both incidence and intensity rise over the period; \textbf{Chihuahua} is the only other entity with rising intensity. Comparisons across entities should be read with the caveat of Appendix~\ref{app:axioms} in mind: entities differ in their climate-zone composition, so the dimensional space over which $M_0$ is computed is not identical across them. \textbf{Source:} Author's calculations using data from \textcite{enigh2016, enigh2018, enigh2020, enigh2022, enigh2024}.
+\end{justify}
+\label{tab:states}
+\end{sidewaystable}
+
+\FloatBarrier
+
+\section{Which AF properties survive the dimensionally-flexible construction}\label{app:axioms}
+
+Section~\ref{data} introduces individual-specific weights $\tilde{w}_i$ that depend on the availability vector $a_i$. This appendix states which of the standard AF properties survive that construction unchanged, which survive with a qualification, and where the difficulty lies. We do not claim a complete axiomatic characterization; the purpose is to be precise about what is and is not established.
+
+\subsection*{Properties that hold unchanged}
+
+\textbf{Symmetry.} If two individuals $i$ and $i'$ have identical achievement vectors \emph{and} identical availability vectors, then $\tilde{w}_i = \tilde{w}_{i'}$ and hence $c_i = c_{i'}$. Permuting such individuals leaves $H$, $A$ and $M_0$ unchanged. Note that the antecedent is stronger than in the standard AF setting: symmetry here holds within availability classes, not across them, and two individuals with the same deprivation profile but different climate zones are not required to receive the same score.
+
+\textbf{Replication invariance and normalization.} Both are immediate, since $c_i \in [0,1]$ by construction (equation \ref{eq:score}) and all three indices are population means.
+
+\textbf{Dimensional monotonicity and weak monotonicity.} Fix $i$ and hence fix $\tilde{w}_i$. If $i$ becomes deprived in an additional available dimension $j \in D_i$, then $c_i$ increases by $\tilde{w}_{ij} > 0$. If $i$ was already identified as poor, $c_i(k)$ rises and so does $M_0$; if $i$ was not poor, $c_i(k)$ is unchanged or $i$ becomes poor, and $M_0$ again weakly rises. The argument is the standard one and goes through because the renormalization in (\ref{eq:weights}) does not depend on $G$: weights are a function of availability alone, so a change in deprivation status cannot alter the weight vector.
+
+\textbf{Subgroup decomposability, as an accounting identity.} Equation (\ref{eq:decomp}) holds for any partition of $N$, including partitions by climate zone, and holds regardless of whether $D_i$ varies across the partition. This is because $M_0$ is defined as a population mean of $c_i(k)$ and the derivation only regroups terms in that mean. The identity is verified numerically for every partition in Table~\ref{tab4b}.
+
+\subsection*{The property that requires qualification}
+
+The difficulty is not decomposability as an identity but the \emph{comparability of the quantities being aggregated}. When $D_i$ varies across individuals, $c_i$ and $c_{i'}$ are shares of different denominators: a household in a temperate municipality is scored over seven dimensions and one in a hot municipality over eight. A deprivation score of $0.30$ therefore does not represent the same bundle of unmet needs in the two zones, and $M_0^{(l)}$ for a temperate subgroup and $M_0^{(m)}$ for a hot subgroup are not measured on a common scale even though equation (\ref{eq:decomp}) aggregates them consistently.
+
+Two consequences follow, and both bear on results reported in this paper. First, the dimensional contributions $\delta_j$ in equation (\ref{eq:delta}) aggregate $\tilde{w}_{ij}$ across individuals facing different denominators, so $\delta_j$ should be read as the contribution of dimension $j$ to the population mean of censored scores, not as a statement about a common per-capita weight. Second, comparisons of $M_0$ across federal entities (Table~\ref{tab:states}, Figure~\ref{fig:result_maps}) involve entities with different climate-zone compositions and therefore different mixtures of the seven- and eight-dimensional spaces. The comparison remains meaningful as a comparison of population-average deprivation shares---which is what a policymaker allocating resources across states would want---but it is not a comparison of identically-defined objects, and we flag it as such.
+
+The natural way to close this gap would be to establish conditions on $w$ and on the availability structure under which the renormalization is \emph{scale-consistent}, in the sense that the ratio $c_i / c_{i'}$ is invariant to the removal of a dimension unavailable to both. We conjecture that this holds when the removed dimension carries equal weight in both individuals' vectors and fails otherwise, which is the situation in our application, since Tc carries the same Tier-3 weight everywhere it is available. We have not proved it, and we state the axiomatic contribution of this paper accordingly: the construction is formally specified and its accounting properties are established, but a complete characterization of its invariance properties remains open.
+
+\subsection*{Transfer}
+
+The transfer axiom is not defined for this index, for the same reason it is not defined for the standard $M_0$: with binary achievement variables there is no non-trivial notion of a progressive transfer between individuals. It becomes relevant only for the $M_\alpha$ family with $\alpha > 0$ on cardinal data, which we do not estimate.
+
+\FloatBarrier
+
+\printbibliography
+
+\end{document}
