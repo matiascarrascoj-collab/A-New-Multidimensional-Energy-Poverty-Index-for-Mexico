@@ -21,10 +21,11 @@ outputs/final/ + dt.RData    ⟶ 4_plots.R                ⟶ outputs/plots/*.jp
 dt.RData                     ⟶ 5_climate_sensitivity.R  ⟶ outputs/final/climate_sensitivity.RData
 dt.RData                     ⟶ 6_et_drop.R              ⟶ outputs/final/et_sensitivity.RData
 dt.RData + inputs/ + final/  ⟶ 7_diagnostics.R          ⟶ outputs/final/diagnostics.RData
-all of outputs/final/        ⟶ 8_extract_for_tex.R        ⟶ stdout dump, keyed by LaTeX label
+dt.RData + robustness.RData  ⟶ 8_ckwt_merge.R           ⟶ outputs/final/ckwt_merge.RData
+all of outputs/final/        ⟶ 9_extract_for_tex.R        ⟶ stdout dump, keyed by LaTeX label
 ```
 
-Full rebuild from scratch: run `1` → `7` in order, then `8_extract_for_tex.R`. `dt.RData` is ~79 MB.
+Full rebuild from scratch: run `1` → `8` in order, then `9_extract_for_tex.R`. `dt.RData` is ~79 MB.
 
 Measured wall-clock on the development machine (R 4.3.2, Apple silicon, August 2026):
 
@@ -37,7 +38,8 @@ Measured wall-clock on the development machine (R 4.3.2, Apple silicon, August 2
 | `5_climate_sensitivity.R` | 2 min 05 s |
 | `6_et_drop.R` | 18 s |
 | `7_diagnostics.R` | 1 min |
-| `8_extract_for_tex.R` | ~5 s |
+| `8_ckwt_merge.R` | 40 s |
+| `9_extract_for_tex.R` | ~5 s |
 
 **`3_estimations.R` is the pipeline, time-wise** — it is ~97% of a full rebuild, and the number is
 not a typo. Budget an afternoon, and do not start it expecting to iterate. Four blocks account
@@ -59,11 +61,11 @@ robustness blocks were added to script 3: `2_data.R` reads ~3.5 GB of raw CSV bu
 and finishes in under two minutes.
 
 **Every number in `essay_I.tex` is produced by one of these scripts.** There are no ad hoc values.
-`8_extract_for_tex.R` prints all of them grouped by the LaTeX label that consumes them; to capture
+`9_extract_for_tex.R` prints all of them grouped by the LaTeX label that consumes them; to capture
 the dump for a replication package:
 
 ```sh
-Rscript 8_extract_for_tex.R > outputs/final/values_for_tex.txt
+Rscript 9_extract_for_tex.R > outputs/final/values_for_tex.txt
 ```
 
 ---
@@ -188,6 +190,21 @@ series — now stated in the Table A3 note).
 | Af-circularity diagnostics | `af_circularity.RData` | `tab:af_circ` |
 
 `SE(Δ) = √(SE²₂₀₁₆ + SE²₂₀₂₄)` throughout, assuming cross-section independence.
+
+**Total-row standard errors in the dimensional decomposition (fixed 2026-08-18).** `total_row`
+was built with a blanket `summarise(across(where(is.numeric), sum))`. Column-summing `delta_j`
+and `relative_j` is correct — that is equation (11), `Σⱼ δⱼ = M₀`. Column-summing the *standard
+errors* is not: it returns the perfect-correlation upper bound on `SE(Σ)`, not the standard error
+of the sum. The Total row therefore printed `SE = 0.256` for 2016 where the design-based
+`SE(M₀)` is `0.164`, so the paper carried two different standard errors for one and the same
+estimate (Table 6 against Table 4). The row now takes `SE` straight from
+`svymean(~mep_score)`, which is what `tab3` already reports, so the two tables agree by
+construction. Found by the August 2026 referee notes (`mepi_review_notes.md`, item A.1).
+
+The decomposition block is self-contained — it opens with `rm(list = ls())` and reloads
+`dt.RData` — so it can be re-run on its own in ~2 minutes without repeating the 3 h 46 min
+estimation above. Extract it with
+`awk '/^# Dimensional decomposition of M0 ----/,/^save\(final_output/' 3_estimations.R`.
 
 **Missing-value convention in `.ksens_one()`.** `mep_k` and `score_k` must be `NA` on the
 same rows. An earlier version set `score_k = 0` when the raw score was `NA`, so individuals
@@ -314,7 +331,7 @@ a larger margin than the Et drop.
 > and the script aborted at `filter(!is.na(water_heat))` with `object 'water_heat' not found` —
 > *before* reaching `save()`. So from 2026-08-12 to 2026-08-17, `diagnostics.RData` on disk was
 > the stale 2026-08-10 build, containing neither `wt_strict` nor `af_route`, and
-> `8_extract_for_tex.R` failed on `object 'af_route' not found` whenever it was run against a
+> `9_extract_for_tex.R` failed on `object 'af_route' not found` whenever it was run against a
 > fresh 7. Fixed 2026-08-17 by deleting the re-read and using the column that was already there.
 > The lesson is the boring one: a script that ends in `save()` fails loudly, but only if someone
 > runs it end to end.
@@ -345,7 +362,49 @@ decomposition of equation (12) closes to the national M₀ for every partition �
 decimal places, except for the Indigenous partition where 3.2% of individuals have missing
 language data (documented in the note to `tab4b`).
 
-## 8. `8_extract_for_tex.R` — the code-to-text bridge
+## 8. `8_ckwt_merge.R` — cooking / water-heating merge
+
+**Reads** `dt.RData` and `robustness.RData`. **Writes** `outputs/final/ckwt_merge.RData`.
+
+Added 2026-08-18 in response to item B.2 of `mepi_review_notes.md`. Ck and Wt have a tetrachoric
+correlation of 0.83–0.86 and jointly carry two Tier-1 weights and 44.9% of M₀ in 2024, yet the
+paper dropped Et and Af without ever testing the pair that overlaps most. §3.1 conceded the
+overlap in prose; this script tests it.
+
+Collapses Ck and Wt into one fuel-and-appliance dimension `dp_fa` and renormalizes the remaining
+seven in a **(2,3,2)** configuration at the same 1.538 tier ratio — Tier 1: Ea, Fa; Tier 2: Rf,
+Et, Cm; Tier 3: Tc, Af — giving `w₁ = 0.2086`, `w₂ = 0.1356`, `w₃ = 0.0881` (hot/cold) and
+`0.2287 / 0.1487 / 0.0966` (temperate, (2,3,1)). The script asserts that Tier 3 stays below k and
+Tier 2 above it in both classes, so the comparison isolates the merge rather than confounding it
+with a change of cutoff. Two merge rules are reported: **union** (deprived in Ck *or* Wt — the
+headline) and **intersection** (both — a bound).
+
+Feeds `tab:ckwt_merge`.
+
+**The headline result is that `H` is numerically identical to the NB main column in every wave.**
+This is structural, not a coincidence: Fa carries `w₁ > k` under the merge and Ck and Wt each
+carry `0.1726 > k` under the main scheme, so "deprived in Ck or Wt" identifies a household under
+both and the two schemes share an identification set exactly. Merging can only move intensity.
+It is the same mechanism behind `H_NB = H_freq` in `tab:robustness` and `H` two-tier = `H` equal
+in `tab:twotier`, and it is the third independent instance of that identity in the paper.
+
+| | 2016 M₀ | 2024 M₀ | relative |
+|---|---|---|---|
+| NB main | 9.737 | 6.900 | −29.1% |
+| Merged, union | 10.488 | 7.285 | **−30.5%** |
+| Merged, intersection | 8.328 | 5.577 | **−33.0%** |
+
+The double-counting is worth roughly nine percentage points of M₀: the fuel-and-appliance
+constraint takes 31.8% (2016) → 36.3% (2024) of M₀ when counted once, against
+`δ⁽ʳ⁾_Ck + δ⁽ʳ⁾_Wt` = 39.9% → 44.9% when counted twice. The headline trajectory survives and is
+marginally *stronger* under either rule, so the trend is not an artefact of the overlap.
+
+Note this is a different exercise from `7_diagnostics.R` §14, which removes the MAEN stove route
+from Wt and *weakens* the trend to −21.9%. The two answer different questions: §14 asks whether
+Wt is measured correctly, script 8 asks whether Ck and Wt should be one dimension. Read together
+they bracket the fuel-and-appliance margin, and §14 remains the less comfortable of the two.
+
+## 9. `9_extract_for_tex.R` — the code-to-text bridge
 
 **Reads** every object in `outputs/final/` plus the weight vectors and MCA diagnostics in
 `dt.RData`. **Writes** nothing; prints to stdout.
@@ -399,17 +458,19 @@ Order of appearance is given for orientation.
 | A3 | `tab:delta` | `3_estimations.R` + `7_diagnostics.R` §9 | `delta_national`, `delta_2016_2018` |
 | A4 | `tab:af_drop` | `3_estimations.R` | `af_drop` |
 | A5 | `tab:et_drop` | `6_et_drop.R` | `et_drop_full` |
-| A6 | `tab:af_circ` | `3_estimations.R` + `7_diagnostics.R` §7 | `af_circ`, `af_conditioning` |
-| A7 | `tab:climate_pop` | `5_climate_sensitivity.R` | `results` |
-| A8 | `tab:climate_HM` | `5_climate_sensitivity.R` | `results` |
-| A9 | `tab:twotier` | `7_diagnostics.R` §6 | `twotier` |
-| A10 | `tab:states` | `7_diagnostics.R` §13 | `state_estimates` |
+| A6 | `tab:ckwt_merge` | `8_ckwt_merge.R` | `ckwt_full`, `fa_contrib` |
+| A7 | `tab:af_circ` | `3_estimations.R` + `7_diagnostics.R` §7 | `af_circ`, `af_conditioning` |
+| A8 | `tab:climate_pop` | `5_climate_sensitivity.R` | `results` |
+| A9 | `tab:climate_HM` | `5_climate_sensitivity.R` | `results` |
+| A10 | `tab:twotier` | `7_diagnostics.R` §6 | `twotier` |
+| A11 | `tab:states` | `7_diagnostics.R` §13 | `state_estimates` |
 
 Not consumed by any table, but cited in the running text: `7_diagnostics.R` §7b (§4 of the
 paper) and §14 (produced, not yet cited — see above).
 
-**Appendix table numbers shifted by one from A5 onward** when `tab:et_drop` was inserted in
-August 2026. This is exactly why the mapping is keyed on labels.
+**Appendix table numbers have now shifted twice**: by one from A5 onward when `tab:et_drop` was
+inserted, and by one again from A6 onward when `tab:ckwt_merge` was inserted on 2026-08-18. This
+is exactly why the mapping is keyed on labels and why the paper never cites a table by number.
 
 ## Repository checklist
 
@@ -417,7 +478,7 @@ Before depositing the replication package:
 
 - [x] Every value in `essay_I.tex` produced by a numbered script (closed by `7_diagnostics.R`).
 - [x] No orphan scripts (`stations.R` folded into `1_spatial.R`).
-- [x] Code-to-text mapping documented and machine-checkable (`8_extract_for_tex.R`).
+- [x] Code-to-text mapping documented and machine-checkable (`9_extract_for_tex.R`).
 - [x] `README.md` with run order, data sources, expected `inputs/` layout and package list.
 - [x] `.gitignore`: `inputs/` and `outputs/intermediate/` excluded (`dt.RData` is 79 MB, over
       GitHub's 50 MB warning threshold, and fully reproducible from `2_data.R`);
@@ -449,7 +510,7 @@ Before depositing the replication package:
 - After any change to scripts 1–7, regenerate the dump and diff it before touching the `.tex`:
 
   ```sh
-  Rscript 8_extract_for_tex.R > outputs/final/values_for_tex.new
+  Rscript 9_extract_for_tex.R > outputs/final/values_for_tex.new
   diff outputs/final/values_for_tex.txt outputs/final/values_for_tex.new
   ```
 

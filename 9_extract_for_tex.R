@@ -7,7 +7,7 @@
 # contain a number that does not appear in this dump.
 #
 # Run after 1-7. Writes nothing; prints to stdout. To capture:
-#   Rscript 8_extract_for_tex.R > outputs/final/values_for_tex.txt
+#   Rscript 9_extract_for_tex.R > outputs/final/values_for_tex.txt
 
 rm(list = ls())
 options(scipen = 999, width = 200)
@@ -193,6 +193,25 @@ print(as.data.frame(af_route))
 cat("\n  P_incomepoor_given_Af is the sharp form of the circularity objection:\n")
 cat("  the share of the Af-deprived who are also income-poor, quoted in \u00a74.\n")
 cat("  Tier3only_temperate must be 0 -- Af cannot move H where Tc is unavailable.\n")
+
+# ---------------------------------------------------------------------------
+# From 8_ckwt_merge.R
+# ---------------------------------------------------------------------------
+
+load("outputs/final/ckwt_merge.RData")
+hdr("tab:ckwt_merge", "NB main vs merged cooking/water-heating dimension")
+print(as.data.frame(ckwt_full))
+cat("\nMerged-dimension weights, hot/cold (2,3,2) and temperate (2,3,1):\n")
+print(round(w_merge, 4)); print(round(w_merge_t, 4))
+cat("\nFa deprivation rate and contribution to M0 (union rule):\n")
+print(as.data.frame(fa_contrib))
+cat("\nRelative change in M0, 2016-2024:\n")
+cat(sprintf("  NB main %.1f%% | merged-union %.1f%% | merged-intersection %.1f%%\n",
+            100 * (ckwt_full$M0[5]       / ckwt_full$M0[1]       - 1),
+            100 * (ckwt_full$M0_merge[5] / ckwt_full$M0_merge[1] - 1),
+            100 * (ckwt_full$M0_int[5]   / ckwt_full$M0_int[1]   - 1)))
+cat("  H is identical to the NB main column under the union rule -- see the\n")
+cat("  note to tab:ckwt_merge; both schemes share an identification set.\n")
 
 hdr("\u00a73.1 (not yet cited)", "Water-heating sensitivity: dedicated heater only")
 print(as.data.frame(wt_strict))

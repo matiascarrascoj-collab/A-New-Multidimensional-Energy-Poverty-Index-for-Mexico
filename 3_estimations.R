@@ -528,13 +528,16 @@ for (yr in names(dt_list)) {
 }
 
 results_list <- list()
+M0_se_list   <- list()   # design-based SE(M0) per wave, for the Total row
 
 for (yr in names(dt_list)){
   dt <- dt_list[[yr]]
   yr_label <- str_extract(yr, "\\d{4}")
-  
+
   design <- svydesign(ids=~upm, strata=~est_dis, weights=~factor, data=dt, nest=TRUE)
-  M0 <- svymean(~mep_score, design, na.rm = TRUE)[1]
+  M0_svy <- svymean(~mep_score, design, na.rm = TRUE)
+  M0 <- coef(M0_svy)[1]
+  M0_se_list[[yr_label]] <- as.numeric(SE(M0_svy)[1])
   delta_formula <- as.formula(paste0("~", paste(paste0("contrib_", dp_cols), collapse="+")))
   delta_j_svy <- as.data.frame(svymean(delta_formula, design, na.rm = TRUE))
   delta_j     <- delta_j_svy %>% select(-SE)
@@ -547,15 +550,30 @@ for (yr in names(dt_list)){
                paste0("delta_j_",    yr_label),
                paste0("se_delta_j_", yr_label),
                paste0("relative_j_", yr_label)))
-  
+
   results_list[[yr]] <- df_yr
 }
 
 final_table <- results_list %>% reduce(left_join, by = "dimension")
 
+# Total row.
+#
+# delta_j and relative_j DO sum across dimensions -- that is equation (11),
+# sum_j delta_j = M0 -- so column-summing them is right. SEs do NOT: summing
+# eight standard errors returns the perfect-correlation upper bound on
+# SE(sum), not the standard error of the sum. Until August 2026 this row was
+# built with a blanket summarise(across(where(is.numeric), sum)), so the
+# Total SE printed 0.256 for 2016 where the design-based SE(M0) is 0.164 --
+# two different standard errors in the paper for one and the same estimate.
+# The design-based SE from svymean(~mep_score) is the correct quantity and is
+# what tab3 already reports, so the two tables now agree by construction.
 total_row <- final_table %>%
-  summarise(across(where(is.numeric), sum)) %>%
+  summarise(across(starts_with("delta_j_"), sum),
+            across(starts_with("relative_j_"), sum)) %>%
   mutate(dimension = "Total")
+
+for (yl in names(M0_se_list))
+  total_row[[paste0("se_delta_j_", yl)]] <- M0_se_list[[yl]]
 
 final_output <- bind_rows(final_table, total_row) %>%
   mutate(across(where(is.numeric), ~.x * 100)) %>%

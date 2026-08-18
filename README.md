@@ -14,7 +14,7 @@ matrix.
 
 Everything reported in the paper — every table cell, every figure, every number in
 the running text — is produced by the scripts in this repository. There are no ad
-hoc values. `8_extract_for_tex.R` prints all of them, grouped by the LaTeX label that
+hoc values. `9_extract_for_tex.R` prints all of them, grouped by the LaTeX label that
 consumes them.
 
 ---
@@ -120,7 +120,8 @@ Rscript 4_plots.R                # figures                -> outputs/plots/*.jpe
 Rscript 5_climate_sensitivity.R  # climate robustness     -> outputs/final/climate_sensitivity.RData
 Rscript 6_et_drop.R              # entertainment drop     -> outputs/final/et_sensitivity.RData
 Rscript 7_diagnostics.R          # indicator diagnostics  -> outputs/final/diagnostics.RData
-Rscript 8_extract_for_tex.R > outputs/final/values_for_tex.txt
+Rscript 8_ckwt_merge.R           # Ck-Wt merge robustness -> outputs/final/ckwt_merge.RData
+Rscript 9_extract_for_tex.R > outputs/final/values_for_tex.txt
 ```
 
 **`3_estimations.R` takes 3 h 46 min** and is ~97% of a full rebuild. That is measured, not
@@ -132,13 +133,13 @@ machine back soon.
 
 Everything else is quick: `2_data.R` reads ~3.5 GB of raw CSV but is I/O-bound and
 finishes in 1 min 40 s; `1_spatial.R` takes 26 s; `4_plots.R` 20 s;
-`5_climate_sensitivity.R` 2 min; `6_et_drop.R` 18 s; `7_diagnostics.R` 1 min;
-`8_extract_for_tex.R` 5 s. (Earlier versions of this file called `2_data.R` the
+`5_climate_sensitivity.R` 2 min; `6_et_drop.R` 18 s; `7_diagnostics.R` 1 min; `8_ckwt_merge.R` 40 s;
+`9_extract_for_tex.R` 5 s. (Earlier versions of this file called `2_data.R` the
 slow step. That has not been true since the estimation script grew its robustness
 blocks.) See `PIPELINE.md` for the per-block breakdown of script 3.
 
-Scripts 5, 6 and 7 depend only on `dt.RData` plus `outputs/final/robustness.RData`
-(5 and 6, for the baseline sanity check and the main-scheme comparison columns)
+Scripts 5, 6, 7 and 8 depend only on `dt.RData` plus `outputs/final/robustness.RData`
+(5, 6 and 8, for the baseline sanity check and the main-scheme comparison columns)
 and `estimations_means.RData` / `estimations_inc.RData` (7), so after a full build
 any of them can be re-run on its own without redoing 1–3.
 
@@ -147,14 +148,14 @@ and a table mapping every LaTeX label in the paper to the object that produces i
 
 ## 4. Verifying the paper against the code
 
-`8_extract_for_tex.R` is the audit trail. It reads every object in `outputs/final/`
+`9_extract_for_tex.R` is the audit trail. It reads every object in `outputs/final/`
 and prints each numeric value that appears in `essay_I.tex`, grouped under the
 LaTeX label of the table or figure that consumes it. After any change to scripts
 1–7, re-run it and diff against the previous dump to see exactly which table cells
 move:
 
 ```sh
-Rscript 8_extract_for_tex.R > outputs/final/values_for_tex.new
+Rscript 9_extract_for_tex.R > outputs/final/values_for_tex.new
 diff outputs/final/values_for_tex.txt outputs/final/values_for_tex.new
 ```
 
@@ -180,8 +181,8 @@ checklist at the end of `PIPELINE.md`.
 ```
 .
 ├── 0_legend_helpers.R              map legend scales, derived from the data
-├── 1_spatial.R … 7_diagnostics.R   pipeline, in execution order
-├── 8_extract_for_tex.R             code-to-text audit trail
+├── 1_spatial.R … 8_ckwt_merge.R    pipeline, in execution order
+├── 9_extract_for_tex.R             code-to-text audit trail
 ├── essay_I.tex                     the paper
 ├── PIPELINE.md                     what each script does; label -> object map
 ├── README.md                       this file
